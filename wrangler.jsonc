@@ -4,6 +4,8 @@
   "main": "src/worker.js",
   // Keep variables set in the Cloudflare dashboard (PAYWALL etc.) on every deploy.
   "keep_vars": true,
+  // Paywall switch lives here so deploys can never reset it. "off" opens every stage.
+  "vars": { "PAYWALL": "on" },
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
