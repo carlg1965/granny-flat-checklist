@@ -290,7 +290,7 @@ const DETAILS = [
   { id: 'address', label: 'Site address', required: true },
   { id: 'legal', label: 'Lot and DP number', help: 'Shown on your Record of Title' },
   { id: 'lbp', label: 'Lead LBP name', required: true },
-  { id: 'lbpno', label: 'LBP licence number', help: 'You can check it on the public LBP register' },
+  { id: 'lbpno', label: 'LBP licence number', help: 'You can check it on the public LBP register', helpHtml: 'You can check it on the <a href="https://www.lbp.govt.nz/" target="_blank" rel="noopener">public LBP register</a> (lbp.govt.nz)' },
   { id: 'pim', label: 'PIM number', help: 'A Project Information Memorandum from council is needed before work starts on an exempt granny flat' },
   { id: 'date', label: 'Date of this check', type: 'date', required: true }
 ];
@@ -406,7 +406,7 @@ function renderSection() {
   if (sec.type === 'details') {
     h += '<p class="lead">' + esc(CHECKLIST.timing) + '</p>';
     h += '<div class="callout">This is a self-check for homeowners building an exempt granny flat under Schedule 1A of the Building Act 2004. It covers Building Act and Building Code matters only. District plan rules \u2014 such as larger rural setbacks, site coverage and height in relation to boundary \u2014 are separate. Confirm those with your council.</div>';
-    h += DETAILS.map(d => '<label class="field"><span>' + esc(d.label) + (d.required ? ' <span class="req">*</span>' : '') + (d.help ? '<small>' + esc(d.help) + '</small>' : '') + '</span>' +
+    h += DETAILS.map(d => '<label class="field"><span>' + esc(d.label) + (d.required ? ' <span class="req">*</span>' : '') + (d.help ? '<small>' + (d.helpHtml || esc(d.help)) + '</small>' : '') + '</span>' +
       '<input type="' + (d.type || 'text') + '" data-field="' + d.id + '" value="' + esc(state.fields[d.id] || '') + '"' + (d.id === 'email' ? ' autocomplete="email"' : '') + '></label>').join('');
   }
 
