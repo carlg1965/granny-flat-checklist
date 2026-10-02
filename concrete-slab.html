@@ -182,7 +182,8 @@ const CHECKLIST = {
   short: 'Concrete slab',
   timing: 'Complete this on site with your LBP once the hardfill, membrane and reinforcing are in place — and before the concrete truck is booked to pour.',
   nextMilestone: 'Framing',
-  videoUrl: '',
+  videoUrl: 'https://www.youtube-nocookie.com/embed/TydHLhZKvPs',
+  videoCredit: 'Fundamentals: Reinforced Concrete Slabs \u2014 Arch Guide. Video resources provided via public YouTube links for educational context. This checklist is independently created and is not affiliated with or endorsed by Arch Guide.',
   guidanceUrl: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-exemption-guidance.pdf',
   clauseLinks: {},
   introLead: 'Watch the short Concrete slab video before you go outside. It explains the damp-proof membrane, reinforcing mesh cover, and the things that cannot be fixed once the concrete is in.',
@@ -436,7 +437,7 @@ function renderSection() {
   else if (sec.type === 'intro') {
     h += '<p class="lead">' + esc(CHECKLIST.introLead) + '</p>';
     h += CHECKLIST.videoUrl
-      ? '<div class="video"><iframe src="' + esc(CHECKLIST.videoUrl) + '" title="' + esc(CHECKLIST.short) + ' milestone video" allowfullscreen></iframe></div>'
+      ? '<div class="video"><iframe src="' + esc(CHECKLIST.videoUrl) + '" title="' + esc(CHECKLIST.short) + ' milestone video" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' + (CHECKLIST.videoCredit ? '<p class="hint" style="margin:0 0 10px 0;font-size:13px">' + esc(CHECKLIST.videoCredit) + '</p>' : '')
       : '<div class="video">' + esc(CHECKLIST.short) + ' milestone video \u2014 coming soon</div>';
     h += '<label class="check"><input type="checkbox" id="ack"' + (state.ack ? ' checked' : '') + '><span>' + esc(CHECKLIST.ackText) + '</span></label>';
     if (CHECKLIST.choice) {
