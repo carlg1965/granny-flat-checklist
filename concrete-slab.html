@@ -292,6 +292,7 @@ const CHECKLIST = {
       id: 'raft', title: 'Raft or pod slab', when: s => ['raft', 'unsure'].includes(s.fields.stype),
       intro: 'Raft and pod slabs are designed by an engineer. The engineer, not this checklist, confirms the structural detail — but you can check the paperwork is in place.',
       video: { url: 'https://www.youtube-nocookie.com/embed/6y0oRJ_y7gI', title: 'Foundation Start to Finish // Concrete Slab Timelapse', by: 'NZ Builder', credit: 'Video resources provided via public YouTube links for educational context. This checklist is independently created and is not affiliated with or endorsed by NZ Builder.' },
+      resources: [{ label: 'MBIE Granny Flats Foundations Guidance (PDF)', url: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-foundations-guidance.pdf', note: 'Official guidance from MBIE covering granny flat foundations, including pod slabs and ground conditions. \u00a9 Crown copyright.' }],
       items: [
         { id: 'e1', q: 'The engineer has been told the slab is ready and will inspect it before the pour.',
           next: 'Do not pour until the engineer has inspected. Ask your LBP to book the engineer.', stopOnNo: true, na: true },
@@ -459,6 +460,7 @@ function renderSection() {
     if (sec.intro) h += '<p class="lead">' + esc(sec.intro) + '</p>';
     if (sec.video) h += '<div class="video"><iframe src="' + esc(sec.video.url) + '" title="' + esc(sec.video.title) + '" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
       '<p class="hint" style="margin:0 0 10px 0;font-size:13px">' + esc(sec.video.title) + (sec.video.by ? ' \u2014 ' + esc(sec.video.by) : '') + '. ' + esc(sec.video.credit || '') + '</p>';
+    if (sec.resources) h += sec.resources.map(r => '<div class="callout" style="margin:6px 0 14px"><strong>Further reading:</strong> <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.label) + '</a>' + (r.note ? '<br><span style="font-size:14px;color:var(--muted)">' + esc(r.note) + '</span>' : '') + '</div>').join('');
     if (sec.measures) {
       h += '<p class="hint" style="margin-left:0">' + esc(sec.measureHint || '') + '</p><div class="measures">' + sec.measures.map(m => {
         const v = state.measures[m.id] ?? '';

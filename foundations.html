@@ -202,6 +202,7 @@ const CHECKLIST = {
     {
       id: 'ground', title: 'Ground & excavations',
       intro: 'Every foundation relies on the ground underneath it. These checks apply to every granny flat, whatever the foundation type.',
+      resources: [{ label: 'MBIE Granny Flats Foundations Guidance (PDF)', url: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-foundations-guidance.pdf', note: 'Official guidance from MBIE covering granny flat foundations, including pod slabs and ground conditions. \u00a9 Crown copyright.' }],
       items: [
         { id: 'g0', q: 'The Siting milestone has been completed and any items from it have been resolved.',
           next: 'Go back and complete Milestone 1 — Siting first. Foundations must not be set out from unconfirmed boundaries.' },
@@ -435,6 +436,7 @@ function renderSection() {
     if (sec.intro) h += '<p class="lead">' + esc(sec.intro) + '</p>';
     if (sec.video) h += '<div class="video"><iframe src="' + esc(sec.video.url) + '" title="' + esc(sec.video.title) + '" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
       '<p class="hint" style="margin:0 0 10px 0;font-size:13px">' + esc(sec.video.title) + (sec.video.by ? ' \u2014 ' + esc(sec.video.by) : '') + '. ' + esc(sec.video.credit || '') + '</p>';
+    if (sec.resources) h += sec.resources.map(r => '<div class="callout" style="margin:6px 0 14px"><strong>Further reading:</strong> <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.label) + '</a>' + (r.note ? '<br><span style="font-size:14px;color:var(--muted)">' + esc(r.note) + '</span>' : '') + '</div>').join('');
     if (sec.measures) {
       h += '<p class="hint" style="margin-left:0">' + esc(sec.measureHint || '') + '</p><div class="measures">' + sec.measures.map(m => {
         const v = state.measures[m.id] ?? '';
