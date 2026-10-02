@@ -231,6 +231,11 @@ const CHECKLIST = {
       id: 'ground', title: 'Ground, water and services',
       intro: 'Before the digger arrives, look at how water moves across your site and what is under the ground.',
       items: [
+        { id: 'g0', q: 'My PIM does not identify a natural hazard on the site (such as flooding, erosion, subsidence or slips), and the granny flat is not on, above or below a slope steeper than about 18\u00b0 (1 in 3).',
+          hint: 'Check your PIM and the council\u2019s hazard maps. MBIE Granny Flats Foundations Guidance, sections 3.1\u20133.4.',
+          next: 'Stop before spending more. The granny flats exemption is unlikely to apply \u2014 a building consent and engineering input are likely to be needed. Talk to your designer and council first.', stopOnNo: true },
+        { id: 'g0b', q: 'A walk around the site shows no signs of ground movement \u2014 no cracks in the ground or lawn, leaning trees, poles or retaining walls, or slumping on slopes.',
+          next: 'Signs of movement need a geotechnical professional\u2019s assessment before you go further.', stopOnNo: true },
         { id: 'g1', q: 'The building is not sitting in a hollow or low spot where surface water will collect.',
           hint: 'Picture a heavy downpour \u2014 where will the water run? (Building Code clause E1 Surface water)',
           next: 'Ask your LBP and designer how surface water will be directed away from the building before work starts.' },
