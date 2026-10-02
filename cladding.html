@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cavity & Wrap Milestone — Granny Flat Checklist</title>
-<meta name="description" content="Milestone 5 — Cavity &amp; wrap. A plain-language self-check for homeowners building an exempt granny flat in New Zealand.">
+<title>Cladding Milestone — Granny Flat Checklist</title>
+<meta name="description" content="Milestone 6 — Cladding. A plain-language self-check for homeowners building an exempt granny flat in New Zealand.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
@@ -154,7 +154,7 @@ textarea{min-height:110px;resize:vertical}
     <img src="/logo.png" alt="PQAS — Project Quality Assurance System" class="logo" id="logo">
     <div>
       <p class="eyebrow">Granny Flat Checklist</p>
-      <h1 id="title">Milestone 5 — Cavity &amp; wrap</h1>
+      <h1 id="title">Milestone 6 — Cladding</h1>
     </div>
   </div>
   <div class="progress" aria-hidden="true"><div id="bar"></div></div>
@@ -177,126 +177,70 @@ textarea{min-height:110px;resize:vertical}
    below with its own CHECKLIST object.
    ========================================================= */
 const CHECKLIST = {
-  id: 'cavity-wrap',
-  title: 'Milestone 5 — Cavity & wrap',
-  short: 'Cavity & wrap',
-  timing: 'Complete this on site with your LBP once the building wrap, window flashings and any cavity battens are in — before any cladding goes on.',
-  nextMilestone: 'Milestone 6 — Cladding',
+  id: 'cladding',
+  title: 'Milestone 6 \u2014 Cladding',
+  short: 'Cladding',
   videoUrl: '',
   guidanceUrl: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-exemption-guidance.pdf',
   clauseLinks: {},
-  introLead: 'Watch the short Cavity & wrap video before you go outside. It explains how the wrap, flashings and cavity work together to keep water out of the walls — the lesson of New Zealand’s leaky building crisis.',
-  ackText: 'I have watched the Cavity & wrap video and have my plans, the cladding details and my Framing record with me.',
-  choice: {
-    id: 'ctype', label: 'How is your wall cladding fixed?',
-    hint: 'Check your plans. Most new NZ homes have a drained cavity: vertical battens between the wrap and the cladding.',
-    options: [['cavity', 'Over a cavity (battens behind)'], ['direct', 'Direct-fixed to the framing'], ['unsure', 'Not sure']],
-    unsureNote: 'Check your cladding details or ask your LBP. Until then, the cavity batten section is shown — answer “Not applicable” to anything that doesn’t apply.'
-  },
-  stopText: 'STOP — do not start the cladding. A critical weathertightness item needs to be fixed first.',
-  resolveText: 'Items to resolve before the cladding goes on',
-  stopTag: 'STOP — fix this before any cladding goes on',
+  timing: 'Complete this with your LBP while the cladding is going on — ideally when the first wall is done, so any problems are caught before the rest is fixed.',
+  nextMilestone: 'Milestone 7 — Preline & insulation',
+  introLead: 'Watch the short Cladding video before you go outside. It explains clearances, fixings and the junctions where light claddings most often leak.',
+  ackText: 'I have watched the Cladding video and have my plans, the cladding manufacturer’s installation instructions and my Cavity & wrap record with me.',
+  stopText: 'STOP — pause the cladding. A critical weathertightness item needs to be fixed first.',
+  resolveText: 'Items to resolve before the cladding is finished',
+  stopTag: 'STOP — fix this before more cladding goes on',
   sections: [
     { id: 'details', title: 'Project details', type: 'details' },
     { id: 'start', title: 'Before you start', type: 'intro' },
     {
-      id: 'ready', title: 'Before the wrap',
-      intro: 'This is your last chance to see the flashings and fixings before the cladding hides them (Building Code clause E2).',
+      id: 'ready', title: 'Product & instructions',
+      intro: 'Light claddings — weatherboards, fibre-cement or plywood sheet, and profiled metal — only perform if they are installed exactly as the manufacturer says (Building Code clauses E2 and B2).',
       items: [
-        { id: 'r1', q: 'The Framing milestone is complete and any items from it have been resolved.',
-          next: 'Go back and complete Milestone 4 — Framing first.' },
-        { id: 'r2', q: 'The cladding on site is the type shown on my plans, and it is stored off the ground and covered.',
-          next: 'Any change of cladding must be checked with your designer — different claddings need different details. Ask your LBP to protect stored cladding.' },
-        { id: 'r3', q: 'My site’s corrosion zone is known, and flashings and fixings are a material suitable for it.',
-          hint: 'Coastal sites need stainless steel or other durable fixings. Flashings must be compatible with the metals they touch (Building Code clause B2).',
-          next: 'Ask your LBP to confirm the flashing material and fixings suit your corrosion zone.' },
-        { id: 'r4', q: 'Window and door openings are the sizes shown on the plans.',
-          next: 'Check any changed openings with your designer now, before the windows go in.' }
+        { id: 'r1', q: 'The Cavity & wrap milestone is complete and any items from it have been resolved.',
+          next: 'Go back and complete Milestone 5 — Cavity & wrap first.' },
+        { id: 'r2', q: 'The cladding being installed is the product shown on my plans.',
+          next: 'Stop and check any substitute with your designer. A different cladding can need different flashings, cavity and fixings.', stopOnNo: true },
+        { id: 'r3', q: 'The manufacturer’s current installation instructions are on site, and my LBP is following them.',
+          next: 'Ask your LBP to download the current instructions from the manufacturer and keep them on site.' },
+        { id: 'r4', q: 'Fixings are the type, material and spacing the manufacturer specifies for my wind and corrosion zone.',
+          hint: 'Coastal and sea-spray sites usually need stainless steel fixings.',
+          next: 'Ask your LBP to confirm the fixings against the instructions. Wrong fixings can corrode or let boards blow off.', stopOnNo: true }
       ]
     },
     {
-      id: 'wrap', title: 'Building wrap',
-      intro: 'The building wrap is the second line of defence. Any water that gets past the cladding must run down the outside of the wrap and drain away.',
+      id: 'clear', title: 'Clearances',
+      intro: 'The bottom edge of the cladding must stay clear of the ground, roofs and decks so it can drain and dry. Measure them.',
       items: [
-        { id: 'w1', q: 'The brand and type of building wrap is recorded, and it is a type suitable for my wall.',
-          hint: 'Note the brand in your notes. Some claddings need a rigid air barrier (such as treated plywood) instead of, or as well as, the wrap.',
-          next: 'Ask your LBP which wrap has been used and whether a rigid air barrier is needed for your wind zone.' },
-        { id: 'w2', q: 'The wrap runs horizontally and is fixed tight to the framing, with no rips or tears.',
-          next: 'Ask your LBP to repair every tear and re-fix any loose wrap.', stopOnNo: true },
-        { id: 'w3', q: 'Horizontal joins overlap by at least 75mm, with the upper sheet over the lower so water runs outwards.',
-          next: 'Ask your LBP to re-lap the wrap so it sheds water outwards.' },
-        { id: 'w4', q: 'Vertical joins overlap by at least 150mm and are made over a stud.',
-          next: 'Ask your LBP to re-lap the vertical joins over studs.' },
-        { id: 'w5', q: 'The wrap is strapped (or supported) where studs are more than 450mm apart, so insulation won’t push it into the cavity.',
-          next: 'Ask your LBP to fit wrap support straps (E2/AS1 9.1.8.5).', na: 'Studs 450mm or closer' },
-        { id: 'w6', q: 'The wrap extends past the bottom plate, and every pipe, cable or bracket through it is sealed.',
-          next: 'Ask your LBP to extend the wrap and tape around every penetration.' },
-        { id: 'w7', q: 'The wrap is fixed properly at the gable ends, with extra framing where needed.',
-          next: 'Ask your LBP to complete the gable wrap and framing.', na: 'No gable ends' }
+        { id: 'c1', q: 'The bottom of the cladding is at least 100mm above paved ground and at least 175mm above unpaved ground.',
+          next: 'Talk to your LBP about lowering the ground or adjusting the cladding before it is finished.', stopOnNo: true },
+        { id: 'c2', q: 'Where cladding finishes above a roof or deck, there is at least a 35mm gap, and it overlaps the flashing upstand by at least 75mm.',
+          next: 'Ask your LBP to re-set the bottom row of cladding at the roof or deck junction.', na: 'No roof or deck junction' },
+        { id: 'c3', q: 'The cavity is left open at the bottom (behind the cavity closer) so it can drain — it is not blocked by the cladding, sealant or soil.',
+          next: 'Ask your LBP to clear the bottom of the cavity.', na: 'Direct-fixed cladding' },
+        { id: 'c4', q: 'Spouting will be fitted only after the cladding is finished and painted, with at least 10mm gap to the cladding.',
+          next: 'Ask your roofer to fit the spouting after painting, with the gap.', na: 'No spouting on walls' }
       ],
-      photos: { id: 'ph_wrap', label: 'Photos of the wrap, laps and taped penetrations' }
+      photos: { id: 'ph_clear', label: 'Photos of the bottom of the cladding with a tape measure showing the clearances' }
     },
     {
-      id: 'openings', title: 'Windows & openings',
-      intro: 'Most leaks start at windows and doors. Check the wrap and flashing tape before the joinery goes in.',
+      id: 'joints', title: 'Joints, corners & openings',
+      intro: 'Look closely at the places where boards meet, turn corners, or meet windows. That is where water gets in.',
       items: [
-        { id: 'o1', q: 'The wrap is cut and folded neatly into each opening, with the excess trimmed.',
-          next: 'Ask your LBP to re-dress the wrap into the openings.' },
-        { id: 'o2', q: 'Every opening is lined with flashing tape that is continuous around the corners, with no gaps.',
-          hint: 'The inside corners at the bottom (the sill) are where water most often gets in.',
-          next: 'Do not install windows yet. Ask your LBP to complete the flashing tape around every opening.', stopOnNo: true },
-        { id: 'o3', q: 'Head flashings over windows and doors are fitted, with a kick-out (bird’s beak) and the wrap or tape lapped over the top.',
-          next: 'Ask your LBP to fit the head flashings so water is turned outwards.', stopOnNo: true },
-        { id: 'o4', q: 'I know where the downpipes and outside taps will go, and there is solid, treated framing behind them for fixing.',
-          next: 'Ask your LBP to add treated blocking at those points before the cladding goes on.' }
+        { id: 'j1', q: 'Weatherboards lap or interlock as the manufacturer specifies, and sheet joints are made the way the instructions show (flashings or jointers, not just sealant).',
+          next: 'Ask your LBP to correct the joints. Sealant alone is not a lasting joint.' },
+        { id: 'j2', q: 'Corners are finished with the specified corner flashings, soakers or boxed corners.',
+          next: 'Ask your LBP to fit the corner details in the instructions.' },
+        { id: 'j3', q: 'Windows and doors sit on the specified sill supports, with head flashings above and the cladding finished to them as detailed.',
+          next: 'Ask your LBP to check each window against the cladding manufacturer’s window details.', stopOnNo: true },
+        { id: 'j4', q: 'Around each window and door, the gap between the frame and the wall framing is sealed on the inside with an air seal (foam and backing rod), not stuffed with insulation.',
+          next: 'Ask your LBP to install the air seals before the linings go on.' },
+        { id: 'j5', q: 'Meter boxes, taps, pipes, vents and lights through the cladding are flashed or sealed as the instructions show.',
+          next: 'Ask your LBP to flash or seal every penetration.' },
+        { id: 'j6', q: 'Cut edges of weatherboards or sheets are primed or sealed, and the cladding will be painted within the manufacturer’s time limit.',
+          next: 'Ask your LBP and painter about sealing cut ends and the painting deadline.' }
       ],
-      photos: { id: 'ph_openings', label: 'Photos of each window and door opening, especially the sill corners' }
-    },
-    {
-      id: 'cavity', title: 'Cavity battens', when: s => ['cavity', 'unsure'].includes(s.fields.ctype),
-      intro: 'The cavity is a drained air gap behind the cladding. It lets water drain out and the wall dry.',
-      items: [
-        { id: 'c1', q: 'Cavity battens are H3.1 treated (or better) and are the size shown in the cladding details.',
-          next: 'Ask your LBP to replace untreated or wrong-sized battens.', stopOnNo: true, na: true },
-        { id: 'c2', q: 'Battens are fixed to the studs at the right spacing, with nails long enough and durable enough for the corrosion zone.',
-          next: 'Ask your LBP to check the batten fixings against the cladding manufacturer’s details.', na: true },
-        { id: 'c3', q: 'Any horizontal battens have a gap at each end and a slope (about 5°), or are notched, so water can drain past.',
-          next: 'Ask your LBP to gap and slope the horizontal battens.', na: 'No horizontal battens' },
-        { id: 'c4', q: 'No pipes, cables or ducts run through the cavity.',
-          next: 'Services must be inside the frame, not in the cavity. Ask your LBP and the trades to move them.', stopOnNo: true, na: true },
-        { id: 'c5', q: 'Cavity closers and vermin proofing are fitted at the bottom (and top) of the cavity.',
-          next: 'Ask your LBP to fit the cavity closers before the cladding.', na: true }
-      ],
-      photos: { id: 'ph_cavity', label: 'Photos of the cavity battens and cavity closers' }
-    },
-    {
-      id: 'direct', title: 'Direct-fixed cladding', when: s => s.fields.ctype === 'direct',
-      intro: 'Direct-fixed cladding has no cavity, so the details at the bottom of the wall matter even more.',
-      items: [
-        { id: 'd1', q: 'The plans confirm direct fixing is allowed for this cladding and this site’s wind zone and risk.',
-          next: 'Check with your designer. Many sites and claddings need a cavity under E2/AS1.', stopOnNo: true },
-        { id: 'd2', q: 'On a slab, the bottom plate overhangs the slab edge by about 6mm, and the cladding will extend at least 50mm below the bottom plate.',
-          next: 'Ask your LBP to confirm the bottom-of-wall detail before cladding.', na: 'Timber floor' }
-      ]
-    },
-    {
-      id: 'junctions', title: 'Roof & deck junctions',
-      intro: 'Where a roof or deck meets a wall is a common leak point. Check the flashings now.',
-      items: [
-        { id: 'j1', q: 'Apron flashings (where a roof meets a wall) have an upstand of at least 110mm with a 10mm hem, and the wrap laps over the top.',
-          hint: 'The cladding will need to overlap the upstand by 75mm, with a 35mm gap above the roof.',
-          next: 'Ask your LBP to correct the apron flashing before the cladding goes on.', na: 'No roof-to-wall junction' },
-        { id: 'j2', q: 'Where gutters meet a wall, a stop-end will direct water into the gutter.',
-          next: 'Ask your roofer to fit stop-ends.', na: true },
-        { id: 'j3', q: 'Where deck joists pass through the wall, the wrap is taped around them and a saddle flashing is fitted.',
-          hint: 'Saddle flashings need a hem on three edges so water can’t wick up. See E2/AS1 figure 16.',
-          next: 'Ask your LBP to tape and flash every deck joist penetration.', stopOnNo: true, na: 'No joists through the wall' },
-        { id: 'j4', q: 'Roof underlay is laid so water can’t pond, and all roof penetrations (vents, flues, skylights) are flashed.',
-          next: 'Ask your roofer to correct the underlay and flash every penetration before the roofing goes on.', na: 'Roof already finished' },
-        { id: 'j5', q: 'For polystyrene (EPS) cladding, cables passing through it are sleeved in conduit or are the approved purple-sheathed type.',
-          next: 'Ask your electrician to sleeve or replace the cables.', na: 'Not EPS cladding' }
-      ],
-      photos: { id: 'ph_junctions', label: 'Photos of apron flashings, saddle flashings and roof penetrations' }
+      photos: { id: 'ph_joints', label: 'Photos of corners, a typical window, joints and penetrations' }
     },
     { id: 'signoff', title: 'Sign off', type: 'signoff' }
   ]
@@ -490,7 +434,7 @@ function updateStop() {
 
 function issues() {
   const out = [];
-  if (CHECKLIST.choice && state.fields[CHECKLIST.choice.id] === 'unsure') out.push({ stop: false, text: 'Cladding fixing not yet confirmed' });
+  if (CHECKLIST.choice && state.fields[CHECKLIST.choice.id] === 'unsure') out.push({ stop: false, text: 'Foundation type not yet confirmed' });
   lowMeasures().forEach(m => out.push({ stop: true, text: m.label + ': ' + state.measures[m.id] + 'm \u2014 under 2.0m' }));
   allItems().forEach(it => {
     const a = state.answers[it.id];
@@ -622,7 +566,7 @@ async function makePDF(btn) {
   if (!(state.fields.owner || '').trim()) missing.push('Homeowner name (Project details)');
   if (!(state.fields.address || '').trim()) missing.push('Site address (Project details)');
   if (!state.ack) missing.push('Video acknowledgement (Before you start)');
-  if (CHECKLIST.choice && !state.fields[CHECKLIST.choice.id]) missing.push('Cladding fixing (Before you start)');
+  if (CHECKLIST.choice && !state.fields[CHECKLIST.choice.id]) missing.push('Foundation type (Before you start)');
   if (!state.sigOwner) missing.push('Homeowner signature');
   const box = $('#missing');
   if (missing.length) { box.innerHTML = '<div class="missing"><strong>Before you download, please add:</strong><ul>' + missing.map(m => '<li>' + esc(m) + '</li>').join('') + '</ul></div>'; return; }
@@ -676,7 +620,7 @@ async function makePDF(btn) {
     if (CHECKLIST.choice) {
       const c = CHECKLIST.choice, o = c.options.find(([k]) => k === state.fields[c.id]);
       need(6); const yy = y;
-      write('Cladding fixing', { size: 9.5, color: MUTED, w: 55, gap: 0 }); const y1 = y; y = yy;
+      write('Foundation type', { size: 9.5, color: MUTED, w: 55, gap: 0 }); const y1 = y; y = yy;
       write(o ? o[1] : '\u2014', { size: 10, x: M + 58, w: CW - 58, gap: 0 }); y = Math.max(y, y1) + 1.5;
     }
 
