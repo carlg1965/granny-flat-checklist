@@ -258,6 +258,7 @@ const CHECKLIST = {
     {
       id: 'piles', title: 'Timber piles', when: s => ['piles', 'both', 'unsure'].includes(s.fields.ftype),
       intro: 'Piles carry the whole weight of the floor and must resist wind and earthquake loads. The hole size, depth and treatment all matter.',
+      video: { url: 'https://www.youtube-nocookie.com/embed/jdp0dtzb3Ro', title: 'Timber Sub/Mid Floor Breakdown', by: 'NZ Builder', credit: 'Video resources provided via public YouTube links for educational context. This checklist is independently created and is not affiliated with or endorsed by NZ Builder.' },
       items: [
         { id: 'p1', q: 'Pile positions and spacings match my foundation plan.',
           next: 'Ask your LBP to correct the set-out, or confirm any change with the designer.', na: true },
@@ -432,6 +433,8 @@ function renderSection() {
 
   else {
     if (sec.intro) h += '<p class="lead">' + esc(sec.intro) + '</p>';
+    if (sec.video) h += '<div class="video"><iframe src="' + esc(sec.video.url) + '" title="' + esc(sec.video.title) + '" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
+      '<p class="hint" style="margin:0 0 10px 0;font-size:13px">' + esc(sec.video.title) + (sec.video.by ? ' \u2014 ' + esc(sec.video.by) : '') + '. ' + esc(sec.video.credit || '') + '</p>';
     if (sec.measures) {
       h += '<p class="hint" style="margin-left:0">' + esc(sec.measureHint || '') + '</p><div class="measures">' + sec.measures.map(m => {
         const v = state.measures[m.id] ?? '';
