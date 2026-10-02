@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /api/
+Disallow: /buy.html
+
+Sitemap: https://grannyflatchecklist.nz/sitemap.xml
