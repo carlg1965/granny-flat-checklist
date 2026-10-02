@@ -2,3 +2,9 @@ wrangler.jsonc
 .assetsignore
 .git
 .github
+src
+node_modules
+.dev.vars
+.wrangler
+package.json
+package-lock.json

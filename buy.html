@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock a stage — Granny Flat Checklist</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#1f4a2f;--green-dark:#163822;--green-soft:#e3ebe5;--stone:#ebebe6;--ink:#1f2220;--muted:#5b6159;--line:#d6d6cf;--accent:#e07b00;--accent-bg:#fdf1e3;--serif:"Source Serif 4",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+.top{border-bottom:3px solid var(--green)}
+.top-in{display:flex;align-items:center;gap:14px;padding:12px 16px}
+.logo{height:52px;width:auto;display:block}
+.eyebrow{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font-family:var(--serif);color:var(--green);font-size:22px}
+h2{font-family:var(--serif);color:var(--green);font-size:26px;margin:0 0 8px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin:18px 0}
+.lead{color:var(--muted);margin:0 0 16px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.opt{border:1.5px solid var(--line);border-radius:10px;padding:18px 16px;display:flex;flex-direction:column;gap:8px}
+.opt.best{border-color:var(--green);background:var(--green-soft)}
+.opt h3{margin:0;font-size:18px}
+.price{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--green)}
+.opt p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.btn{display:inline-flex;justify-content:center;font:inherit;font-weight:600;padding:12px 16px;border-radius:8px;border:1.5px solid var(--green);background:var(--green);color:#fff;text-decoration:none;cursor:pointer}
+.btn:hover{background:var(--green-dark)}
+.btn-ghost{background:#fff;color:var(--green)}
+.keybox{display:flex;gap:8px;margin:10px 0}
+.keybox input{flex:1;min-width:0;font:inherit;font-size:14px;padding:10px;border:1px solid var(--line);border-radius:8px}
+.note{background:var(--accent-bg);border-left:5px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:15px}
+.small{font-size:14px;color:var(--muted)}
+a{color:var(--green)}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+  <a href="/"><img src="/logo.png" alt="PQAS — Project Quality Assurance System" class="logo"></a>
+  <div><p class="eyebrow">Granny Flat Checklist</p><h1 id="head">Unlock a stage</h1></div>
+</div></header>
+<main class="wrap" id="main"></main>
+<footer class="wrap small" style="padding:8px 16px 32px">
+  <p>Payments are processed securely by Stripe. Prices are in New Zealand dollars. Your checklist answers and photos stay on your own device.</p>
+  <p><a href="/">Back to all stages</a> · Siting is free: <a href="/siting.html">start with Siting</a></p>
+</footer>
+<script>
+const STAGES = {
+  'foundations': 'Milestone 2 — Foundations', 'concrete-slab': 'Milestone 3 — Concrete slab',
+  'framing': 'Milestone 4 — Framing', 'cavity-wrap': 'Milestone 5 — Cavity & wrap',
+  'cladding': 'Milestone 6 — Cladding', 'preline': 'Milestone 7 — Preline & insulation',
+  'postline': 'Milestone 8 — Postline', 'final': 'Milestone 9 — Final'
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const q = new URLSearchParams(location.search);
+const main = document.getElementById('main');
+const paid = q.get('paid'), keyv = q.get('key');
+
+if (paid && keyv) {
+  const all = paid === 'all';
+  const dest = all ? '/' : '/' + paid + '.html';
+  const link = location.origin + '/api/unlock?key=' + encodeURIComponent(keyv);
+  document.getElementById('head').textContent = 'Payment received';
+  main.innerHTML = '<section class="card"><h2>Thank you — you’re unlocked</h2>' +
+    '<p class="lead">' + (all ? 'Every stage is now open on this device.' : esc(STAGES[paid] || 'Your stage') + ' is now open on this device.') + ' Stripe has emailed you a receipt.</p>' +
+    '<p><a class="btn" href="' + dest + '">' + (all ? 'Go to the stages' : 'Open the checklist') + ' →</a></p>' +
+    '<div class="note"><strong>Save your unlock link.</strong> Use it to open your stages on another phone, tablet or computer. Keep it private — anyone with it can open your stages.</div>' +
+    '<div class="keybox"><input id="link" readonly value="' + esc(link) + '"><button class="btn btn-ghost" id="copy" type="button">Copy</button></div>' +
+    '<p class="small">Tip: email the link to yourself now.</p></section>';
+  document.getElementById('copy').onclick = async () => {
+    const i = document.getElementById('link');
+    try { await navigator.clipboard.writeText(i.value); } catch (e) { i.select(); document.execCommand('copy'); }
+    document.getElementById('copy').textContent = 'Copied';
+  };
+  history.replaceState(null, '', '/buy.html?paid=' + encodeURIComponent(paid));
+} else if (paid) {
+  document.getElementById('head').textContent = 'Payment received';
+  main.innerHTML = '<section class="card"><h2>You’re unlocked</h2><p class="lead">Your stages are open on this device.</p><p><a class="btn" href="/">Go to the stages →</a></p></section>';
+} else {
+  const stage = STAGES[q.get('stage')] ? q.get('stage') : 'foundations';
+  main.innerHTML = '<section class="card"><h2>' + esc(STAGES[stage]) + '</h2>' +
+    '<p class="lead">This stage is part of the paid checklist. Each stage is a step-by-step self-check you complete on site with your LBP, with a PDF record to keep.</p>' +
+    '<div class="opts">' +
+      '<div class="opt"><h3>This stage</h3><div class="price">$79</div><p>Just ' + esc(STAGES[stage].replace(/^Milestone \d+ — /, '')) + '. Good if you only need this stage now.</p>' +
+        '<a class="btn btn-ghost" href="/api/checkout?stage=' + stage + '">Buy this stage</a></div>' +
+      '<div class="opt best"><h3>All stages</h3><div class="price">$550</div><p>Every stage from Foundations to Final, including new stages as they’re released. Best value for the whole build.</p>' +
+        '<a class="btn" href="/api/checkout?stage=all">Buy all stages</a></div>' +
+    '</div></section>' +
+    '<p class="small">Already paid on another device? Open the unlock link from your payment confirmation on this device.</p>';
+}
+</script>
+</body>
+</html>

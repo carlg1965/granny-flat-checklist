@@ -1,5 +1,12 @@
 {
   "name": "grannyflatchecklist",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./" }
+  "main": "src/worker.js",
+  // Keep variables set in the Cloudflare dashboard (PAYWALL etc.) on every deploy.
+  "keep_vars": true,
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
 }
