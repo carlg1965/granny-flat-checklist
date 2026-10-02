@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Framing Milestone — Granny Flat Checklist</title>
+<meta name="description" content="Milestone 5 — Framing. A plain-language self-check for homeowners building an exempt granny flat in New Zealand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+<script src="jspdf.umd.min.js"></script>
+<style>
+:root{
+  --green:#1f4a2f; --green-dark:#163822; --green-soft:#e3ebe5;
+  --stone:#ebebe6; --card:#ffffff; --ink:#1f2220; --muted:#5b6159; --line:#d6d6cf;
+  --accent:#e07b00; --accent-bg:#fdf1e3;
+  --stop:#b3261e; --stop-bg:#fbe9e7;
+  --radius:10px;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+a{color:var(--green);text-underline-offset:2px}
+
+/* Header */
+.top{background:var(--stone);border-bottom:3px solid var(--green);position:sticky;top:0;z-index:5}
+.top-in{display:flex;align-items:center;gap:14px;padding:12px 16px}
+.logo{height:52px;width:auto;display:block}
+.logo-fallback{font-family:var(--serif);font-weight:700;font-size:28px;color:var(--green);letter-spacing:.02em}
+.eyebrow{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font-family:var(--serif);font-weight:700;color:var(--green);font-size:22px;line-height:1.2}
+.progress{height:5px;background:var(--green-soft)}
+#bar{height:100%;width:0;background:var(--green);transition:width .3s}
+
+/* Step nav */
+.steps{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:var(--sans)}
+.step .dot{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.step.done .dot{background:var(--green)}
+.step.flag .dot{background:var(--accent)}
+.step.stopflag .dot{background:var(--stop)}
+.step.on{border-color:var(--green);color:var(--green);font-weight:600}
+
+/* Cards */
+main{padding-top:8px;padding-bottom:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:10px 0}
+h2{font-family:var(--serif);color:var(--green);font-size:24px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 4px}
+.callout{background:var(--green-soft);border-left:5px solid var(--green);padding:12px 14px;border-radius:6px;margin:14px 0;font-size:16px}
+
+/* Fields */
+.field{display:block;margin:14px 0}
+.field > span{display:block;font-weight:600;margin-bottom:5px}
+.field small{display:block;color:var(--muted);font-weight:400;font-size:14px;margin-top:2px}
+input[type=text],input[type=email],input[type=date],input[type=number],textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{outline:3px solid rgba(31,74,47,.25);border-color:var(--green)}
+textarea{min-height:110px;resize:vertical}
+.req{color:var(--stop)}
+
+/* Check items */
+.item{border:0;border-top:1px solid var(--line);margin:0;padding:18px 0 16px}
+.item:first-of-type{border-top:0}
+.item legend{font-weight:600;padding:0;display:flex;gap:10px;float:left;width:100%}
+.item legend + *{clear:both}
+.num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.hint{color:var(--muted);font-size:15px;margin:8px 0 0 38px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0 38px}
+.opt{position:relative;cursor:pointer}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:inline-block;min-width:76px;text-align:center;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-weight:600;font-size:15px}
+.opt input:focus-visible + span{outline:3px solid rgba(31,74,47,.3)}
+.opt.on.opt-yes span{background:var(--green);border-color:var(--green);color:#fff}
+.opt.on.opt-no span,.opt.on.opt-unsure span{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt.on.opt-na span{background:var(--muted);border-color:var(--muted);color:#fff}
+.next{margin:12px 0 0 38px;background:var(--accent-bg);border-left:5px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:15px}
+.next strong{display:block;color:#9a5300;margin-bottom:2px}
+.next p{margin:0}
+.next.stopnote{background:var(--stop-bg);border-left-color:var(--stop)}
+.next.stopnote strong{color:var(--stop)}
+
+/* Measurements */
+.measures{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.meas{display:block}
+.meas > span{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.meas > span.unit{display:flex;align-items:center;gap:8px;margin:0}
+.unit input{flex:1;min-width:0}
+.unit > span{color:var(--muted);font-weight:600;flex:0 0 auto}
+.unit input.low{border-color:var(--stop);background:var(--stop-bg)}
+.unit input.ok{border-color:var(--green)}
+.stop{background:var(--stop-bg);border:2px solid var(--stop);color:var(--stop);border-radius:8px;padding:12px 14px;margin-top:14px;font-weight:600}
+.stop p{margin:4px 0 0;font-weight:400;color:var(--ink)}
+
+/* Photos */
+.photos{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+.plabel{font-weight:600;margin:0 0 8px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:10px}
+.thumb{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--stone)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+
+/* Video */
+.video{aspect-ratio:16/9;background:var(--green);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-family:var(--serif);font-size:19px;margin:14px 0}
+.video iframe{width:100%;height:100%;border:0;border-radius:8px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:600;margin:12px 0;cursor:pointer}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--green);flex:0 0 auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:600;font-size:16px;padding:12px 18px;border-radius:8px;border:1.5px solid var(--green);background:var(--green);color:#fff;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--green-dark)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:#fff;color:var(--green)}
+.btn-ghost:hover{background:var(--green-soft)}
+.btn-small{padding:7px 12px;font-size:14px}
+.navbtns{display:flex;justify-content:space-between;gap:10px;margin:16px 0}
+.navbtns .btn{flex:1}
+
+/* Sign off */
+.summary{margin:10px 0}
+.result{border-radius:8px;padding:14px 16px;font-weight:700;font-family:var(--serif);font-size:19px}
+.result.clear{background:var(--green-soft);color:var(--green);border:2px solid var(--green)}
+.result.resolve{background:var(--accent-bg);color:#9a5300;border:2px solid var(--accent)}
+.result.stopr{background:var(--stop-bg);color:var(--stop);border:2px solid var(--stop)}
+.issues{margin:10px 0 0;padding-left:20px;font-size:15px}
+.issues li{margin:4px 0}
+.sig{border:1.5px dashed var(--line);border-radius:8px;background:#fff;width:100%;height:150px;touch-action:none;display:block}
+.sigrow{display:flex;justify-content:space-between;align-items:center;margin-top:6px;color:var(--muted);font-size:14px}
+.missing{background:var(--stop-bg);border-left:5px solid var(--stop);padding:10px 12px;border-radius:6px;font-size:15px;margin-top:12px}
+.missing ul{margin:4px 0 0;padding-left:20px}
+
+.foot{color:var(--muted);font-size:13px;padding-bottom:32px}
+.foot button{background:none;border:0;color:var(--muted);text-decoration:underline;font:inherit;cursor:pointer;padding:0}
+.saved{font-size:13px;color:var(--muted);text-align:right;min-height:18px}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  h1{font-size:19px}
+  .logo{height:42px}
+  .measures{grid-template-columns:1fr}
+  .seg,.hint,.next{margin-left:0}
+  .opt{flex:1}
+  .opt span{min-width:0;width:100%;padding:11px 6px}
+}
+@media print{.top,.steps,.navbtns,.foot{display:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top-in">
+    <img src="/logo.png" alt="PQAS — Project Quality Assurance System" class="logo" id="logo">
+    <div>
+      <p class="eyebrow">Granny Flat Checklist</p>
+      <h1 id="title">Milestone 5 — Framing</h1>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+</header>
+
+<nav class="wrap steps" id="steps" aria-label="Checklist sections"></nav>
+<main class="wrap" id="main"></main>
+
+<footer class="wrap foot">
+  <p class="saved" id="saved"></p>
+  <p>Your answers and photos are saved only on this device, in this browser. Nothing is sent to us. Download your PDF record when you finish and keep it with your project documents.</p>
+  <p>This checklist is an educational self-check. It does not certify your building, and it does not replace the responsibilities of your Licensed Building Practitioner or your obligations under the Building Act 2004.</p>
+  <p>Granny Flat Checklist · Project Quality Systems · <button type="button" id="reset">Start a new record</button></p>
+</footer>
+
+<script>
+/* =========================================================
+   CHECKLIST CONTENT
+   Edit wording here. Each milestone page can reuse the engine
+   below with its own CHECKLIST object.
+   ========================================================= */
+const CHECKLIST = {
+  id: 'framing',
+  title: 'Milestone 5 — Framing',
+  short: 'Framing',
+  timing: 'Complete this on site with your LBP once the walls, lintels and roof trusses are up and fixed — before the building wrap goes on.',
+  nextMilestone: 'Milestone 6 — Cavity & wrap',
+  videoUrl: '',
+  guidanceUrl: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-exemption-guidance.pdf',
+  clauseLinks: {},
+  introLead: 'Watch the short Framing video before you go outside. It explains how loads travel from the roof down to the foundations, and what to look for in bracing, lintels and truss fixings.',
+  ackText: 'I have watched the Framing video and have a tape measure, my plans, the bracing plan and the truss layout with me.',
+  choice: {
+    id: 'ftype', label: 'What is your granny flat’s floor?',
+    hint: 'This changes how the bottom of the walls must be fixed down.',
+    options: [['slab', 'Concrete slab'], ['timber', 'Timber floor on piles'], ['unsure', 'Not sure']],
+    unsureNote: 'Check your plans or ask your LBP. Until then, both fixing sections are shown — answer “Not applicable” to anything that doesn’t apply.'
+  },
+  stopText: 'STOP — do not wrap or clad yet. A critical framing item needs to be fixed first.',
+  resolveText: 'Items to resolve before the building wrap goes on',
+  stopTag: 'STOP — fix this before the wrap or cladding goes on',
+  sections: [
+    { id: 'details', title: 'Project details', type: 'details' },
+    { id: 'start', title: 'Before you start', type: 'intro' },
+    {
+      id: 'ready', title: 'Paperwork & exemption',
+      intro: 'Once the frame is up, you can see the true size and shape of the granny flat. This is the moment to confirm it still fits the exemption, and that the paperwork the framing depends on is on site.',
+      items: [
+        { id: 'r1', q: 'The earlier milestones are complete and any items from them have been resolved.',
+          next: 'Go back and complete the earlier milestones first.' },
+        { id: 'r2', q: 'The floor area, measured to the outside of the framing, is no more than 70m² (including any internal garage).',
+          next: 'A granny flat over 70m² is not exempt and needs a building consent. Talk to your designer and LBP before going further.', stopOnNo: true },
+        { id: 'r3', q: 'The building is single storey, with no mezzanine or upper floor.',
+          next: 'A second level means the exemption does not apply. Talk to your designer and LBP now.', stopOnNo: true },
+        { id: 'r4', q: 'The roof truss layout and the truss supplier’s design certificate are on site, and the wind zone on the certificate matches my site.',
+          hint: 'The layout shows each truss type and its fixings. A truss designed for a lower wind zone may not hold the roof down.',
+          next: 'Ask your LBP for the truss layout and certificate from the truss supplier. If the wind zone is wrong, the supplier must re-check the design.', stopOnNo: true },
+        { id: 'r5', q: 'The bracing plan is on site and shows where each bracing element goes.',
+          next: 'Ask your LBP or designer for the bracing plan. The walls can’t be checked for bracing without it.' },
+        { id: 'r6', q: 'The frame supplier has confirmed the timber type and treatment level for each part of the frame.',
+          hint: 'Frame and truss suppliers can provide a certificate listing the timber and treatment used.',
+          next: 'Ask your LBP for the supplier’s timber treatment confirmation.' }
+      ]
+    },
+    {
+      id: 'walls', title: 'Walls, openings & lintels',
+      intro: 'Walls must be straight, plumb and dry, so the linings and cladding go on without cracking. Use a level and a tape.',
+      items: [
+        { id: 'w1', q: 'Walls are plumb and straight, and the framing timber is dry and sound.',
+          hint: 'Wet framing shrinks as it dries and can crack linings. Timber dries about twice as slowly in winter.',
+          next: 'Ask your LBP to straighten or re-plumb walls, and let wet framing dry before linings go on.' },
+        { id: 'w2', q: 'Framing timber is marked with its treatment level (for example H1.2 or H3.1), with treated timber where the plans require it.',
+          hint: 'H1.2 and H3.1 framing is colour coded and branded. H3.2 has a blue-green or dark colour.',
+          next: 'Ask your LBP to confirm the treatment of any unmarked timber with the supplier.' },
+        { id: 'w3', q: 'Studs are at the spacing shown on the plans, and every wall junction and corner has at least two studs.',
+          next: 'Ask your LBP to add studs where the spacing is too wide or a junction is under-framed.' },
+        { id: 'w4', q: 'Holes and notches in studs are within limits (25mm in a 90mm stud, 19mm in a 70mm stud).',
+          hint: 'Trimming studs beside openings must have no holes or notches in their middle third.',
+          next: 'Ask your LBP to strengthen or replace over-cut studs.' },
+        { id: 'w5', q: 'Every window and door opening has a trimming stud on each side, and a lintel of the size shown on the plans.',
+          next: 'Ask your LBP to fit the correct lintel and trimming studs. Lintels carry the roof load over the opening.', stopOnNo: true },
+        { id: 'w6', q: 'Lintels are strapped against uplift where the plans or NZS 3604 require it.',
+          hint: 'Straps go at the top plate, across the lintel and at the bottom of the trimming stud. Light roofs and high wind zones need more.',
+          next: 'Ask your LBP to fit the lintel straps before the wrap covers them.', na: true },
+        { id: 'w7', q: 'Nogs (dwangs) are fitted at no more than 1350mm spacing and are flush with the frame.',
+          next: 'Ask your LBP to add or re-fix nogs.' },
+        { id: 'w8', q: 'Top plates run continuously, with any joins made over a stud or solid blocking.',
+          hint: 'Holes or notches in a 90 × 45 top plate should be no more than 25mm across and 200mm long.',
+          next: 'Ask your LBP to re-join or strengthen the top plate.' },
+        { id: 'w9', q: 'Where a truss lands more than 150mm away from a stud, there is extra support under the top plate.',
+          next: 'Ask your LBP to fit blocking under the top plate at each truss that lands between studs.' }
+      ],
+      photos: { id: 'ph_walls', label: 'Photos of lintels, straps, trimming studs and any cut studs' }
+    },
+    {
+      id: 'slabfix', title: 'Fixing walls to the slab', when: s => ['slab', 'unsure'].includes(s.fields.ftype),
+      intro: 'The bottom plate holds the walls down to the slab against wind and earthquakes.',
+      items: [
+        { id: 'sf1', q: 'Bottom plates are fixed with M12 bolts (with 50 × 50 × 3mm washers) within 150mm of each corner and no more than 1.4m apart — or with cast-in dowels or anchors at the spacing on the plans.',
+          hint: 'Bolts must be set at least 75mm into the concrete. Cast-in R10 dowels or plate anchors are usually at 900mm spacing.',
+          next: 'Ask your LBP to add the missing fixings.', stopOnNo: true },
+        { id: 'sf2', q: 'At each bracing element on an outside wall, there is a 12mm bolt within 100mm of each end and no more than 1.2m apart along it.',
+          next: 'Ask your LBP to add bolts at the bracing element ends.', na: true },
+        { id: 'sf3', q: 'Any bottom plate cut or notched by more than half its width is fixed down within 150mm each side of the cut.',
+          next: 'Ask your LBP to fix the plate either side of the cut.', na: true },
+        { id: 'sf4', q: 'If there are saw cuts planned in the slab, they have been made and are not under a wall that needs fixing.',
+          next: 'Ask your LBP to confirm the saw cuts were made as planned.', na: 'No saw cuts' }
+      ]
+    },
+    {
+      id: 'timberfix', title: 'Fixing walls to the timber floor', when: s => ['timber', 'unsure'].includes(s.fields.ftype),
+      intro: 'On a timber floor, the walls are nailed or screwed down through the flooring into the joists and blocking below.',
+      items: [
+        { id: 'tf1', q: 'Bottom plates are nailed down at 600mm spacing (double hand nails or triple gun nails).',
+          next: 'Ask your LBP to complete the bottom plate nailing.' },
+        { id: 'tf2', q: 'Under walls with bracing elements, the floor joists are blocked at no more than 1.8m spacing.',
+          next: 'Ask your LBP to add blocking under the braced walls.', na: true },
+        { id: 'tf3', q: 'Bracing elements that need extra hold-down have 150mm × 12mm coach screws with washers.',
+          next: 'Ask your LBP to fit the coach screws shown on the bracing plan.', na: true }
+      ]
+    },
+    {
+      id: 'bracing', title: 'Wall bracing',
+      intro: 'Bracing stops the building racking sideways in wind and earthquakes. At this stage you can check that the bracing elements are where the plan says and that their hold-downs are in.',
+      items: [
+        { id: 'b1', q: 'Each bracing element shown on the bracing plan is in the right wall and at the right length.',
+          next: 'Ask your LBP to correct the bracing to match the plan, or get the designer to update it.' },
+        { id: 'b2', q: 'Hold-down brackets or straps are fitted wherever the bracing system requires them.',
+          hint: 'Bracing systems such as GIB® EzyBrace® list the hold-downs needed for each element. Check the current system on the manufacturer’s website.',
+          next: 'Ask your LBP to fit the hold-downs before linings go on.', stopOnNo: true, na: true },
+        { id: 'b3', q: 'The meter box, switchboard and any large openings won’t be placed in a bracing element.',
+          hint: 'Power points should be at least 90mm from the edge of a bracing sheet.',
+          next: 'Ask your LBP and electrician where the meter box will go, and move it or the brace if they clash.' }
+      ],
+      photos: { id: 'ph_bracing', label: 'Photos of hold-downs and bracing element locations' }
+    },
+    {
+      id: 'roof', title: 'Roof trusses & bracing',
+      intro: 'The roof is the part most at risk in high wind. Follow the load from the roof down through the walls.',
+      items: [
+        { id: 't1', q: 'Trusses are at the spacing on the truss layout, and each is fixed to the top plate as specified (usually 2 nails and 2 wire dogs, or the supplier’s bracket).',
+          next: 'Ask your LBP to complete the truss fixings shown on the layout.', stopOnNo: true },
+        { id: 't2', q: 'No truss has been cut, notched or drilled.',
+          hint: 'Builders sometimes cut top chords for valleys. A damaged truss needs an engineer’s written confirmation or a replacement.',
+          next: 'Stop. Get an engineer to confirm in writing that any cut truss is still sound, or have it replaced.', stopOnNo: true },
+        { id: 't3', q: 'Girder trusses are where the layout shows, and their point loads are carried by studs or lintels all the way down.',
+          next: 'Ask your LBP to check the girder positions. If one has moved, the lintel below may need an engineer’s check.', na: true },
+        { id: 't4', q: 'Roof bracing is in place — timber braces or tensioned steel straps run at about 45° to the ridge.',
+          next: 'Ask your LBP to install the roof plane bracing.' },
+        { id: 't5', q: 'Purlins or tile battens are fixed to the trusses as required for my wind zone.',
+          hint: 'High and very high wind zones need extra fixings.',
+          next: 'Ask your LBP to check the purlin fixings against the wind zone.' },
+        { id: 't6', q: 'Ceiling battens run at right angles to the trusses and are double-nailed to each truss.',
+          next: 'Ask your LBP to complete the ceiling battens.', na: 'Not installed yet' },
+        { id: 't7', q: 'For a skillion (sloping) ceiling, there will be at least a 25mm air gap above the insulation.',
+          next: 'Ask your LBP how the insulation will be held down to keep the 25mm gap.', na: 'Not a skillion roof' }
+      ],
+      photos: { id: 'ph_roof', label: 'Photos of truss fixings, girders and roof bracing' }
+    },
+    {
+      id: 'outside', title: 'Levels & decks',
+      intro: 'Check heights now, while the framing can still be changed. Getting these wrong lets water in later (Building Code clause E2).',
+      items: [
+        { id: 'o1', q: 'The floor is at least 150mm above paved ground, or 225mm above unpaved ground, outside the building.',
+          hint: 'For brick veneer the minimums are 100mm (paved) and 150mm (unpaved).',
+          next: 'Talk to your LBP about lowering the ground or adding drainage before the cladding goes on.', stopOnNo: true },
+        { id: 'o2', q: 'Any deck, balcony or parapet framing is H3.2 treated, and the tops of parapets or barriers slope at least 5°.',
+          next: 'Ask your LBP to replace untreated framing and form the slope.', na: 'No deck, balcony or parapet' },
+        { id: 'o3', q: 'There is a 12mm gap between any attached deck and the wall cladding, and the deck is at least 50mm below the inside floor (timber slats).',
+          next: 'Ask your LBP to adjust the deck so water can drain away from the wall.', na: 'No attached deck' }
+      ],
+      photos: { id: 'ph_outside', label: 'Photos of floor-to-ground heights and any deck junctions' }
+    },
+    { id: 'signoff', title: 'Sign off', type: 'signoff' }
+  ]
+};
+
+const DETAILS = [
+  { id: 'owner', label: 'Homeowner name', required: true },
+  { id: 'email', label: 'Email', type: 'email' },
+  { id: 'address', label: 'Site address', required: true },
+  { id: 'legal', label: 'Lot and DP number', help: 'Shown on your Record of Title' },
+  { id: 'lbp', label: 'Lead LBP name', required: true },
+  { id: 'lbpno', label: 'LBP licence number', help: 'You can check it on the public LBP register' },
+  { id: 'pim', label: 'PIM number', help: 'A Project Information Memorandum from council is needed before work starts on an exempt granny flat' },
+  { id: 'date', label: 'Date of this check', type: 'date', required: true }
+];
+
+/* =========================================================
+   ENGINE
+   ========================================================= */
+const SECS = () => CHECKLIST.sections.filter(s => !s.when || s.when(state));
+const KEY = 'gfc-' + CHECKLIST.id + '-v1';
+const ANS = { yes: 'Yes', no: 'No', unsure: 'Not sure', na: 'Not applicable' };
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+
+const blank = () => ({ fields: { date: today() }, answers: {}, measures: {}, ack: false, notes: '', lbpSignName: '', sigOwner: '', sigLbp: '', step: 0 });
+let state = load() || blank();
+let photos = {};
+
+function load() { try { const s = localStorage.getItem(KEY); return s ? Object.assign(blank(), JSON.parse(s)) : null; } catch (e) { return null; } }
+let saveTimer;
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); $('#saved').textContent = 'Saved on this device ' + new Date().toLocaleTimeString('en-NZ', { hour: 'numeric', minute: '2-digit' }); }
+  catch (e) { $('#saved').textContent = 'Could not save on this device \u2014 download your PDF before closing.'; }
+}
+function saveSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(save, 300); }
+
+/* Photo storage (IndexedDB) */
+const idb = (() => {
+  let dbp;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    try { const r = indexedDB.open('gfc-photos', 1); r.onupgradeneeded = () => r.result.createObjectStore('p'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }
+    catch (e) { rej(e); }
+  }));
+  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction('p', mode); const out = fn(t.objectStore('p')); t.oncomplete = () => res(out && out.result); t.onerror = () => rej(t.error); }); };
+  return {
+    get: async k => { try { return await tx('readonly', s => s.get(k)); } catch (e) { return null; } },
+    set: async (k, v) => { try { await tx('readwrite', s => s.put(v, k)); } catch (e) {} },
+    del: async k => { try { await tx('readwrite', s => s.delete(k)); } catch (e) {} }
+  };
+})();
+const pkey = g => CHECKLIST.id + ':' + g;
+
+/* Status helpers */
+const allItems = () => SECS().flatMap(s => s.items || []);
+const allMeasures = () => SECS().flatMap(s => s.measures || []);
+function measureLow(id) {
+  const sec = SECS().find(s => (s.measures || []).some(m => m.id === id));
+  const v = parseFloat(state.measures[id]);
+  return !isNaN(v) && v < sec.minDistance;
+}
+function lowMeasures() { return allMeasures().filter(m => measureLow(m.id)); }
+function isStop() { return lowMeasures().length > 0 || allItems().some(i => i.stopOnNo && state.answers[i.id] === 'no'); }
+function sectionStatus(sec) {
+  if (sec.type === 'details') return DETAILS.filter(d => d.required).every(d => (state.fields[d.id] || '').trim()) ? 'done' : '';
+  if (sec.type === 'intro') return introDone() ? 'done' : '';
+  if (sec.type === 'signoff') return state.sigOwner ? 'done' : '';
+  const items = sec.items || [], ms = sec.measures || [];
+  if (ms.some(m => measureLow(m.id)) || items.some(i => i.stopOnNo && state.answers[i.id] === 'no')) return 'stopflag';
+  if (items.some(i => ['no', 'unsure'].includes(state.answers[i.id]))) return 'flag';
+  const complete = items.every(i => state.answers[i.id]) && ms.every(m => (state.measures[m.id] ?? '') !== '');
+  return complete ? 'done' : '';
+}
+function introDone() { return state.ack && (!CHECKLIST.choice || !!state.fields[CHECKLIST.choice.id]); }
+function progress() {
+  const total = allItems().length + allMeasures().length + 2;
+  const done = allItems().filter(i => state.answers[i.id]).length + allMeasures().filter(m => (state.measures[m.id] ?? '') !== '').length + (introDone() ? 1 : 0) + (state.sigOwner ? 1 : 0);
+  $('#bar').style.width = Math.round(100 * done / total) + '%';
+}
+function linkClauses(text) {
+  let h = esc(text);
+  Object.entries(CHECKLIST.clauseLinks).forEach(([c, url]) => { if (url) h = h.replace(new RegExp('clause ' + c + '\\b', 'g'), '<a href="' + esc(url) + '" target="_blank" rel="noopener">clause ' + c + '</a>'); });
+  return h;
+}
+
+/* Rendering */
+function renderSteps() {
+  $('#steps').innerHTML = SECS().map((s, i) =>
+    '<button type="button" class="step ' + (i === state.step ? 'on ' : '') + sectionStatus(s) + '" data-step="' + i + '"><span class="dot"></span>' + esc(s.title) + '</button>').join('');
+}
+
+function itemHTML(it, n) {
+  const a = state.answers[it.id] || '';
+  const opts = [['yes', 'Yes'], ['no', 'No'], ['unsure', 'Not sure']];
+  if (it.na) opts.push(['na', it.na === true ? 'Not applicable' : it.na]);
+  const show = a === 'no' || a === 'unsure';
+  const stopNote = it.stopOnNo && a === 'no';
+  return '<fieldset class="item" data-item="' + it.id + '">' +
+    '<legend><span class="num">' + n + '</span><span>' + esc(it.q) + '</span></legend>' +
+    (it.hint ? '<p class="hint">' + linkClauses(it.hint) + '</p>' : '') +
+    '<div class="seg" role="radiogroup">' + opts.map(([v, l]) =>
+      '<label class="opt opt-' + v + (a === v ? ' on' : '') + '"><input type="radio" name="' + it.id + '" value="' + v + '"' + (a === v ? ' checked' : '') + '><span>' + l + '</span></label>').join('') + '</div>' +
+    '<div class="next' + (stopNote ? ' stopnote' : '') + '"' + (show ? '' : ' hidden') + '><strong>' + (stopNote ? CHECKLIST.stopTag : 'What to do next') + '</strong><p>' + esc(it.next) + '</p></div>' +
+    '</fieldset>';
+}
+
+function photosHTML(p) {
+  return '<div class="photos" data-group="' + p.id + '"><p class="plabel">' + esc(p.label) + ' <span style="font-weight:400;color:var(--muted)">(optional)</span></p>' +
+    '<div class="thumbs" id="th_' + p.id + '"></div>' +
+    '<label class="btn btn-ghost btn-small"><input type="file" accept="image/*" multiple hidden data-photos="' + p.id + '">+ Add photos</label></div>';
+}
+
+function renderThumbs(g) {
+  const el = document.getElementById('th_' + g); if (!el) return;
+  el.innerHTML = (photos[g] || []).map(ph => '<div class="thumb"><img src="' + ph.src + '" alt="Site photo"><button type="button" aria-label="Remove photo" data-rm="' + g + '|' + ph.id + '">\u00d7</button></div>').join('');
+}
+
+function numberFor(id) { return allItems().findIndex(i => i.id === id) + 1; }
+
+function renderSection() {
+  const sec = SECS()[state.step];
+  let h = '<section class="card"><h2>' + esc(sec.title) + '</h2>';
+
+  if (sec.type === 'details') {
+    h += '<p class="lead">' + esc(CHECKLIST.timing) + '</p>';
+    h += '<div class="callout">This is a self-check for homeowners building an exempt granny flat under Schedule 1A of the Building Act 2004. It covers Building Act and Building Code matters only. District plan rules \u2014 such as larger rural setbacks, site coverage and height in relation to boundary \u2014 are separate. Confirm those with your council.</div>';
+    h += DETAILS.map(d => '<label class="field"><span>' + esc(d.label) + (d.required ? ' <span class="req">*</span>' : '') + (d.help ? '<small>' + esc(d.help) + '</small>' : '') + '</span>' +
+      '<input type="' + (d.type || 'text') + '" data-field="' + d.id + '" value="' + esc(state.fields[d.id] || '') + '"' + (d.id === 'email' ? ' autocomplete="email"' : '') + '></label>').join('');
+  }
+
+  else if (sec.type === 'intro') {
+    h += '<p class="lead">' + esc(CHECKLIST.introLead) + '</p>';
+    h += CHECKLIST.videoUrl
+      ? '<div class="video"><iframe src="' + esc(CHECKLIST.videoUrl) + '" title="' + esc(CHECKLIST.short) + ' milestone video" allowfullscreen></iframe></div>'
+      : '<div class="video">' + esc(CHECKLIST.short) + ' milestone video \u2014 coming soon</div>';
+    h += '<label class="check"><input type="checkbox" id="ack"' + (state.ack ? ' checked' : '') + '><span>' + esc(CHECKLIST.ackText) + '</span></label>';
+    if (CHECKLIST.choice) {
+      const c = CHECKLIST.choice, v = state.fields[c.id] || '';
+      h += '<fieldset class="item" style="border-top:1px solid var(--line);margin-top:14px"><legend><span>' + esc(c.label) + ' <span class="req">*</span></span></legend>' +
+        '<p class="hint" style="margin-left:0">' + esc(c.hint) + '</p><div class="seg" style="margin-left:0">' +
+        c.options.map(([k, l]) => '<label class="opt opt-' + (k === 'unsure' ? 'unsure' : 'yes') + (v === k ? ' on' : '') + '"><input type="radio" name="' + c.id + '" value="' + k + '" data-choice="' + c.id + '"' + (v === k ? ' checked' : '') + '><span>' + esc(l) + '</span></label>').join('') +
+        '</div><div class="next" id="choicenote"' + (v === 'unsure' ? '' : ' hidden') + '><strong>What to do next</strong><p>' + esc(c.unsureNote) + '</p></div></fieldset>';
+    }
+    h += '<p>Official guidance: <a href="' + esc(CHECKLIST.guidanceUrl) + '" target="_blank" rel="noopener">MBIE Granny Flats Exemption Guidance (PDF)</a></p>';
+  }
+
+  else if (sec.type === 'signoff') {
+    h += signoffHTML();
+  }
+
+  else {
+    if (sec.intro) h += '<p class="lead">' + esc(sec.intro) + '</p>';
+    if (sec.measures) {
+      h += '<p class="hint" style="margin-left:0">' + esc(sec.measureHint || '') + '</p><div class="measures">' + sec.measures.map(m => {
+        const v = state.measures[m.id] ?? '';
+        const cls = v === '' ? '' : (measureLow(m.id) ? 'low' : 'ok');
+        return '<label class="meas"><span>' + esc(m.label) + '</span><span class="unit"><input type="number" inputmode="decimal" step="0.01" min="0" data-measure="' + m.id + '" class="' + cls + '" value="' + esc(v) + '"><span>m</span></span></label>';
+      }).join('') + '</div><div class="stop" id="stopbox" hidden></div>';
+    }
+    h += (sec.items || []).map(it => itemHTML(it, numberFor(it.id))).join('');
+    if (sec.photos) h += photosHTML(sec.photos);
+  }
+
+  h += '</section>';
+  const last = state.step === SECS().length - 1;
+  h += '<div class="navbtns">' +
+    (state.step > 0 ? '<button type="button" class="btn btn-ghost" data-go="-1">\u2190 Back</button>' : '<span></span>') +
+    (last ? '<button type="button" class="btn" id="pdf">Download PDF record</button>' : '<button type="button" class="btn" data-go="1" id="nextbtn">Next \u2192</button>') +
+    '</div>';
+
+  $('#main').innerHTML = h;
+  if (sec.photos) renderThumbs(sec.photos.id);
+  if (sec.measures) updateStop();
+  if (sec.type === 'intro') $('#nextbtn').disabled = !introDone();
+  if (sec.type === 'signoff') { initSig('sigOwner'); initSig('sigLbp'); }
+  renderSteps(); progress();
+  const on = $('.step.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'center' });
+}
+
+function updateStop() {
+  const box = $('#stopbox'); if (!box) return;
+  const low = lowMeasures();
+  document.querySelectorAll('[data-measure]').forEach(inp => {
+    const v = inp.value; inp.classList.toggle('low', v !== '' && measureLow(inp.dataset.measure)); inp.classList.toggle('ok', v !== '' && !measureLow(inp.dataset.measure));
+  });
+  box.hidden = !low.length;
+  if (low.length) box.innerHTML = 'STOP \u2014 ' + (low.length === 1 ? 'one distance is' : low.length + ' distances are') + ' under 2.0 metres (' + low.map(m => esc(m.label.toLowerCase())).join(', ') + ').' +
+    '<p>Do not start excavation. Talk to your LBP and designer now: the building needs to move, or the project will need a building consent instead of the exemption.</p>';
+}
+
+function issues() {
+  const out = [];
+  if (CHECKLIST.choice && state.fields[CHECKLIST.choice.id] === 'unsure') out.push({ stop: false, text: 'Floor type not yet confirmed' });
+  lowMeasures().forEach(m => out.push({ stop: true, text: m.label + ': ' + state.measures[m.id] + 'm \u2014 under 2.0m' }));
+  allItems().forEach(it => {
+    const a = state.answers[it.id];
+    if (a === 'no' || a === 'unsure') out.push({ stop: it.stopOnNo && a === 'no', text: numberFor(it.id) + '. ' + it.q + ' \u2014 ' + ANS[a] });
+  });
+  return out;
+}
+function unanswered() {
+  return allItems().filter(i => !state.answers[i.id]).length + allMeasures().filter(m => (state.measures[m.id] ?? '') === '').length;
+}
+function result() {
+  if (isStop()) return { cls: 'stopr', text: CHECKLIST.stopText };
+  if (issues().length || unanswered()) return { cls: 'resolve', text: CHECKLIST.resolveText };
+  return { cls: 'clear', text: 'All clear \u2014 ready for ' + CHECKLIST.nextMilestone };
+}
+
+function signoffHTML() {
+  const r = result(), iss = issues(), un = unanswered();
+  let h = '<p class="lead">Your result is worked out from your answers.</p><div class="summary"><div class="result ' + r.cls + '">' + esc(r.text) + '</div>';
+  if (iss.length) h += '<ul class="issues">' + iss.map(i => '<li' + (i.stop ? ' style="color:var(--stop);font-weight:600"' : '') + '>' + esc(i.text) + '</li>').join('') + '</ul>';
+  if (un) h += '<p class="hint" style="margin-left:0">' + un + ' question' + (un === 1 ? '' : 's') + ' not yet answered.</p>';
+  h += '</div>';
+  h += '<label class="field"><span>Notes, questions for my LBP, or anything I wasn\u2019t sure about</span><textarea data-state="notes">' + esc(state.notes) + '</textarea></label>';
+  h += '<div class="field"><span>Homeowner signature <span class="req">*</span></span><canvas class="sig" id="c_sigOwner"></canvas><div class="sigrow"><span>Sign with your finger or mouse</span><button type="button" class="btn btn-ghost btn-small" data-clear="sigOwner">Clear</button></div></div>';
+  h += '<label class="field"><span>LBP name <small>If your LBP was present for this check</small></span><input type="text" data-state="lbpSignName" value="' + esc(state.lbpSignName || state.fields.lbp || '') + '"></label>';
+  h += '<div class="field"><span>LBP signature <small>Optional</small></span><canvas class="sig" id="c_sigLbp"></canvas><div class="sigrow"><span></span><button type="button" class="btn btn-ghost btn-small" data-clear="sigLbp">Clear</button></div></div>';
+  h += '<div id="missing"></div>';
+  h += '<p class="hint" style="margin-left:0">Keep your PDF record with your project documents. Next: ' + esc(CHECKLIST.nextMilestone) + '.</p>';
+  return h;
+}
+
+/* Signature pads */
+function initSig(key) {
+  const c = document.getElementById('c_' + key); if (!c) return;
+  const ctx = c.getContext('2d');
+  const r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  c.width = r.width * d; c.height = r.height * d; ctx.scale(d, d);
+  ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#111';
+  if (state[key]) { const im = new Image(); im.onload = () => ctx.drawImage(im, 0, 0, r.width, r.height); im.src = state[key]; }
+  let drawing = false, last = null;
+  const pt = e => { const b = c.getBoundingClientRect(); return { x: e.clientX - b.left, y: e.clientY - b.top }; };
+  c.addEventListener('pointerdown', e => { drawing = true; last = pt(e); c.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.arc(last.x, last.y, 1, 0, Math.PI * 2); ctx.fillStyle = '#111'; ctx.fill(); });
+  c.addEventListener('pointermove', e => { if (!drawing) return; const p = pt(e); ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); last = p; });
+  const end = () => { if (!drawing) return; drawing = false; state[key] = c.toDataURL('image/png'); save(); renderSteps(); progress(); };
+  c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+}
+
+/* Photo resize */
+function resize(file, max = 1400) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const s = Math.min(1, max / Math.max(img.width, img.height));
+      const w = Math.round(img.width * s), h = Math.round(img.height * s);
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h); URL.revokeObjectURL(url);
+      res({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), src: c.toDataURL('image/jpeg', 0.8), w, h });
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('Could not read image')); };
+    img.src = url;
+  });
+}
+
+/* Events */
+document.addEventListener('click', async e => {
+  const t = e.target.closest('[data-step],[data-go],[data-rm],[data-clear],#pdf,#reset');
+  if (!t) return;
+  if (t.dataset.step) { state.step = +t.dataset.step; save(); renderSection(); window.scrollTo(0, 0); }
+  else if (t.dataset.go) { state.step = Math.max(0, Math.min(SECS().length - 1, state.step + +t.dataset.go)); save(); renderSection(); window.scrollTo(0, 0); }
+  else if (t.dataset.rm) { const [g, id] = t.dataset.rm.split('|'); photos[g] = (photos[g] || []).filter(p => p.id !== id); await idb.set(pkey(g), photos[g]); renderThumbs(g); }
+  else if (t.dataset.clear) { state[t.dataset.clear] = ''; save(); renderSection(); }
+  else if (t.id === 'pdf') makePDF(t);
+  else if (t.id === 'reset') {
+    if (!confirm('Start a new record? This clears all answers, photos and signatures saved on this device for this milestone. Download your PDF first if you need it.')) return;
+    try { localStorage.removeItem(KEY); } catch (err) {}
+    for (const s of CHECKLIST.sections) if (s.photos) await idb.del(pkey(s.photos.id));
+    state = blank(); photos = {}; renderSection();
+  }
+});
+
+document.addEventListener('change', async e => {
+  const t = e.target;
+  if (t.type === 'radio' && t.closest('.item') && !t.dataset.choice) {
+    const item = allItems().find(i => i.id === t.name);
+    state.answers[t.name] = t.value; save();
+    const fs = t.closest('.item');
+    fs.querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.querySelector('input').checked));
+    const nx = fs.querySelector('.next'); const stopNote = item.stopOnNo && t.value === 'no';
+    nx.hidden = !(t.value === 'no' || t.value === 'unsure');
+    nx.classList.toggle('stopnote', stopNote);
+    nx.querySelector('strong').textContent = stopNote ? CHECKLIST.stopTag : 'What to do next';
+    renderSteps(); progress();
+  }
+  else if (t.id === 'ack') { state.ack = t.checked; save(); $('#nextbtn').disabled = !introDone(); renderSteps(); progress(); }
+  else if (t.dataset.choice) {
+    state.fields[t.dataset.choice] = t.value; save();
+    t.closest('.item').querySelectorAll('.opt').forEach(o => o.classList.toggle('on', o.querySelector('input').checked));
+    $('#choicenote').hidden = t.value !== 'unsure';
+    $('#nextbtn').disabled = !introDone(); renderSteps(); progress();
+  }
+  else if (t.dataset.photos) {
+    const g = t.dataset.photos; photos[g] = photos[g] || [];
+    for (const f of t.files) { try { photos[g].push(await resize(f)); } catch (err) { alert('One photo could not be added: ' + f.name); } }
+    await idb.set(pkey(g), photos[g]); renderThumbs(g); t.value = '';
+  }
+});
+
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.field) { state.fields[t.dataset.field] = t.value; saveSoon(); renderSteps(); }
+  else if (t.dataset.measure) { state.measures[t.dataset.measure] = t.value; saveSoon(); updateStop(); renderSteps(); progress(); }
+  else if (t.dataset.state) { state[t.dataset.state] = t.value; saveSoon(); }
+});
+
+/* =========================================================
+   PDF RECORD
+   ========================================================= */
+async function imgToData(src) {
+  try {
+    const blob = await (await fetch(src)).blob();
+    const data = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(blob); });
+    const dim = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res({ w: i.width, h: i.height }); i.onerror = rej; i.src = data; });
+    return { data, ...dim };
+  } catch (e) { return null; }
+}
+
+async function makePDF(btn) {
+  const missing = [];
+  if (!(state.fields.owner || '').trim()) missing.push('Homeowner name (Project details)');
+  if (!(state.fields.address || '').trim()) missing.push('Site address (Project details)');
+  if (!state.ack) missing.push('Video acknowledgement (Before you start)');
+  if (CHECKLIST.choice && !state.fields[CHECKLIST.choice.id]) missing.push('Floor type (Before you start)');
+  if (!state.sigOwner) missing.push('Homeowner signature');
+  const box = $('#missing');
+  if (missing.length) { box.innerHTML = '<div class="missing"><strong>Before you download, please add:</strong><ul>' + missing.map(m => '<li>' + esc(m) + '</li>').join('') + '</ul></div>'; return; }
+  box.innerHTML = '';
+  if (!window.jspdf) { alert('The PDF tool did not load. Check your internet connection and try again.'); return; }
+
+  btn.disabled = true; const label = btn.textContent; btn.textContent = 'Building your PDF\u2026';
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = 210, H = 297, M = 16, CW = W - 2 * M, BOTTOM = H - 18;
+    const GREEN = [31, 74, 47], ORANGE = [176, 96, 0], STOP = [179, 38, 30], INK = [31, 34, 32], MUTED = [91, 97, 89], LINE = [214, 214, 207];
+    let y = M;
+    const need = h => { if (y + h > BOTTOM) { doc.addPage(); y = M; } };
+    const write = (str, o = {}) => {
+      const size = o.size || 10, lh = size * 0.3528 * 1.35;
+      doc.setFont(o.font || 'helvetica', o.bold ? 'bold' : 'normal'); doc.setFontSize(size); doc.setTextColor(...(o.color || INK));
+      const x = o.x || M, lines = doc.splitTextToSize(String(str), o.w || CW - ((o.x || M) - M));
+      for (const line of lines) { need(lh); doc.text(line, x, y + lh * 0.78); y += lh; }
+      y += (o.gap ?? 1.5);
+    };
+    const rule = () => { need(4); doc.setDrawColor(...LINE); doc.setLineWidth(0.3); doc.line(M, y, W - M, y); y += 4; };
+    const heading = t => { need(32); y += 2; write(t, { size: 14, bold: true, font: 'times', color: GREEN, gap: 1 }); doc.setDrawColor(...GREEN); doc.setLineWidth(0.6); doc.line(M, y, W - M, y); y += 4; };
+
+    // Header
+    const logoEl = document.getElementById('logo');
+    const logo = logoEl ? await imgToData(logoEl.src) : null;
+    if (logo) { const lh = 18, lw = lh * logo.w / logo.h; doc.addImage(logo.data, 'PNG', M, y, lw, lh); }
+    doc.setFont('times', 'bold'); doc.setFontSize(18); doc.setTextColor(...GREEN);
+    doc.text('Granny Flat Checklist', W - M, y + 7, { align: 'right' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor(...INK);
+    doc.text(CHECKLIST.title + ' \u2014 Construction Milestone Record', W - M, y + 13, { align: 'right' });
+    y += 24;
+
+    // Result banner
+    const r = result();
+    const rc = r.cls === 'clear' ? GREEN : r.cls === 'stopr' ? STOP : [224, 123, 0];
+    doc.setFillColor(...rc); doc.roundedRect(M, y, CW, 11, 2, 2, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
+    doc.text(doc.splitTextToSize(r.text, CW - 8)[0], M + 4, y + 7.2); y += 16;
+
+    // Details
+    heading('Project details');
+    DETAILS.forEach(d => {
+      let v = state.fields[d.id] || '\u2014';
+      if (d.type === 'date' && state.fields[d.id]) v = new Date(state.fields[d.id] + 'T00:00').toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+      need(6); const yy = y;
+      write(d.label, { size: 9.5, color: MUTED, w: 55, gap: 0 }); const y1 = y; y = yy;
+      write(v, { size: 10, x: M + 58, w: CW - 58, gap: 0 }); y = Math.max(y, y1) + 1.5;
+    });
+    if (CHECKLIST.choice) {
+      const c = CHECKLIST.choice, o = c.options.find(([k]) => k === state.fields[c.id]);
+      need(6); const yy = y;
+      write('Floor type', { size: 9.5, color: MUTED, w: 55, gap: 0 }); const y1 = y; y = yy;
+      write(o ? o[1] : '\u2014', { size: 10, x: M + 58, w: CW - 58, gap: 0 }); y = Math.max(y, y1) + 1.5;
+    }
+
+    // Sections
+    for (const sec of SECS()) {
+      if (sec.type) continue;
+      heading(sec.title);
+      if (sec.measures) {
+        write('Minimum ' + sec.minDistance.toFixed(1) + 'm to every legal boundary and any other residential building, measured to the external wall.', { size: 9.5, color: MUTED });
+        sec.measures.forEach(m => {
+          const v = state.measures[m.id], low = measureLow(m.id);
+          need(6); const yy = y;
+          write(m.label, { size: 10, w: 110, gap: 0 }); const y1 = y; y = yy;
+          write(v === undefined || v === '' ? 'Not measured' : Number(v).toFixed(2) + ' m' + (low ? '  \u2014 UNDER 2.0m' : '  OK'), { size: 10, bold: true, x: M + 115, w: CW - 115, color: low ? STOP : (v ? GREEN : MUTED), gap: 0 });
+          y = Math.max(y, y1) + 1.5;
+        });
+        rule();
+      }
+      for (const it of sec.items || []) {
+        const a = state.answers[it.id];
+        const col = !a ? MUTED : a === 'yes' ? GREEN : a === 'na' ? MUTED : (it.stopOnNo && a === 'no') ? STOP : ORANGE;
+        need(12);
+        write(numberFor(it.id) + '.  ' + it.q, { size: 10, bold: true, gap: 0.8 });
+        write('Answer: ' + (a ? ANS[a] : 'Not answered'), { size: 10, bold: true, color: col, x: M + 5, gap: 0.8 });
+        if (a === 'no' || a === 'unsure') write('What to do next: ' + it.next, { size: 9.5, color: ORANGE, x: M + 5, gap: 0.8 });
+        y += 2;
+      }
+      if (sec.photos) {
+        const list = photos[sec.photos.id] || [];
+        if (list.length) {
+          write(sec.photos.label + ' (' + list.length + ')', { size: 10, bold: true, color: GREEN, gap: 2 });
+          const gw = (CW - 6) / 2; let col = 0, rowH = 0;
+          for (const ph of list) {
+            const w = gw, h = Math.min(75, gw * ph.h / ph.w), dw = h * ph.w / ph.h;
+            if (col === 0) need(h + 4);
+            const x = M + col * (gw + 6) + (gw - dw) / 2;
+            doc.addImage(ph.src, 'JPEG', x, y, dw, h); rowH = Math.max(rowH, h);
+            col++; if (col === 2) { col = 0; y += rowH + 4; rowH = 0; }
+          }
+          if (col) y += rowH + 4;
+        }
+      }
+    }
+
+    // Sign off
+    heading('Sign off');
+    const iss = issues();
+    if (iss.length) {
+      write('Items to resolve', { size: 10.5, bold: true, color: ORANGE, gap: 1 });
+      iss.forEach(i => write('\u2022  ' + i.text, { size: 9.5, color: i.stop ? STOP : INK, x: M + 2, gap: 0.8 }));
+      y += 2;
+    }
+    if (state.notes.trim()) { write('Notes', { size: 10.5, bold: true, color: GREEN, gap: 1 }); write(state.notes, { size: 10 }); }
+    const sigBlock = async (label, key, name) => {
+      need(36);
+      write(label + (name ? ': ' + name : ''), { size: 10, bold: true, gap: 1 });
+      if (state[key]) { doc.addImage(state[key], 'PNG', M, y, 70, 24); }
+      doc.setDrawColor(...LINE); doc.line(M, y + 25, M + 80, y + 25); y += 30;
+    };
+    await sigBlock('Homeowner', 'sigOwner', state.fields.owner);
+    if (state.sigLbp || (state.lbpSignName || '').trim()) await sigBlock('LBP', 'sigLbp', state.lbpSignName || state.fields.lbp);
+
+    y += 2;
+    write('This record was completed by the homeowner as an educational self-check using the Granny Flat Checklist. It does not certify the building work and does not replace the responsibilities of the Licensed Building Practitioner or the owner\u2019s obligations under the Building Act 2004. Scope: Building Act and Building Code matters only; district plan matters are not covered.', { size: 8.5, color: MUTED });
+    write('Record created ' + new Date().toLocaleString('en-NZ'), { size: 8.5, color: MUTED });
+
+    // Footers
+    const n = doc.getNumberOfPages();
+    for (let i = 1; i <= n; i++) {
+      doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
+      doc.text('Granny Flat Checklist \u00b7 Project Quality Systems \u00b7 ' + CHECKLIST.short + ' \u00b7 ' + (state.fields.address || ''), M, H - 9);
+      doc.text('Page ' + i + ' of ' + n, W - M, H - 9, { align: 'right' });
+    }
+
+    const slug = (state.fields.address || 'site').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+    doc.save(CHECKLIST.id + '-record-' + slug + '-' + (state.fields.date || today()) + '.pdf');
+  } catch (err) {
+    console.error(err); alert('Sorry \u2014 the PDF could not be created. ' + err.message);
+  } finally { btn.disabled = false; btn.textContent = label; }
+}
+
+/* Logo fallback */
+(() => {
+  const img = $('#logo');
+  const fallback = () => { const s = document.createElement('span'); s.className = 'logo-fallback'; s.textContent = 'PQAS'; img.replaceWith(s); };
+  if (img.complete && !img.naturalWidth) fallback(); else img.addEventListener('error', fallback);
+})();
+
+/* Start */
+(async () => {
+  for (const s of CHECKLIST.sections) if (s.photos) photos[s.photos.id] = (await idb.get(pkey(s.photos.id))) || [];
+  if (state.step >= SECS().length) state.step = 0;
+  renderSection();
+})();
+</script>
+</body>
+</html>
