@@ -182,7 +182,8 @@ const CHECKLIST = {
   short: 'Siting',
   timing: 'Complete this on site with your LBP before any digging or excavation starts.',
   nextMilestone: 'Milestone 2 — Foundations',
-  videoUrl: '', // e.g. 'https://www.youtube-nocookie.com/embed/VIDEO_ID'
+  videoUrl: 'https://www.youtube-nocookie.com/embed/2a9oC7AdOH4',
+  videoCredit: 'Video resources provided via public YouTube links for educational context. This checklist is independently created and is not affiliated with or endorsed by NZ Builder.',
   guidanceUrl: 'https://www.building.govt.nz/assets/Uploads/projects-and-consents/granny-flats-exemption/granny-flats-exemption-guidance.pdf',
   // Add URLs to turn clause references in hints into links, e.g. 'E1': 'https://...'
   clauseLinks: {},
@@ -394,7 +395,7 @@ function renderSection() {
   else if (sec.type === 'intro') {
     h += '<p class="lead">Watch the short Siting video before you go outside. It explains boundary pegs, how to measure, and what the 2 metre rule means.</p>';
     h += CHECKLIST.videoUrl
-      ? '<div class="video"><iframe src="' + esc(CHECKLIST.videoUrl) + '" title="Siting milestone video" allowfullscreen></iframe></div>'
+      ? '<div class="video"><iframe src="' + esc(CHECKLIST.videoUrl) + '" title="Siting milestone video" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' + (CHECKLIST.videoCredit ? '<p class="hint" style="margin:0 0 10px 0;font-size:13px">' + esc(CHECKLIST.videoCredit) + '</p>' : '')
       : '<div class="video">Siting milestone video \u2014 coming soon</div>';
     h += '<label class="check"><input type="checkbox" id="ack"' + (state.ack ? ' checked' : '') + '><span>I have watched the Siting video and have a tape measure, my site plan and my Record of Title with me.</span></label>';
     h += '<p>Official guidance: <a href="' + esc(CHECKLIST.guidanceUrl) + '" target="_blank" rel="noopener">MBIE Granny Flats Exemption Guidance (PDF)</a></p>';
