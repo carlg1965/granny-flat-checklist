@@ -175,6 +175,7 @@ textarea{min-height:110px;resize:vertical}
   <p>Your answers and photos are saved only on this device, in this browser. Nothing is sent to us. Download your PDF record when you finish and keep it with your project documents.</p>
   <p>This checklist is an educational self-check. It does not certify your building, and it does not replace the responsibilities of your Licensed Building Practitioner or your obligations under the Building Act 2004.</p>
   <p>Granny Flat Checklist · Project Quality Systems · <button type="button" id="reset">Start a new record</button></p>
+  <p>© 2026 Carl Graham, trading as Project Quality Systems. All rights reserved. Personal use only — see <a href="/terms.html">Terms of use</a>.</p>
 </footer>
 
 <script>
@@ -789,7 +790,7 @@ async function makePDF(btn) {
     const n = doc.getNumberOfPages();
     for (let i = 1; i <= n; i++) {
       doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(...MUTED);
-      doc.text('Granny Flat Checklist \u00b7 Project Quality Systems \u00b7 ' + CHECKLIST.short + ' \u00b7 ' + (state.fields.address || ''), M, H - 9);
+      doc.text('\u00a9 2026 Project Quality Systems \u00b7 Granny Flat Checklist \u00b7 ' + CHECKLIST.short + ' \u00b7 ' + (state.fields.address || ''), M, H - 9);
       doc.text('Page ' + i + ' of ' + n, W - M, H - 9, { align: 'right' });
     }
 

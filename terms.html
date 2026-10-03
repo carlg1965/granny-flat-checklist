@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use — Granny Flat Checklist</title>
+<meta name="description" content="Terms of use and copyright notice for the Granny Flat Checklist by Project Quality Systems.">
+<link rel="canonical" href="https://grannyflatchecklist.nz/siting.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Granny Flat Checklist">
+<meta property="og:title" content="Granny Flat Siting Checklist NZ — 2m Boundary Rule &amp; Site Checks">
+<meta property="og:description" content="Free granny flat siting checklist for NZ: find boundary pegs, measure the 2 metre rule, check for natural hazards, ground, water and services before any digging starts.">
+<meta property="og:url" content="https://grannyflatchecklist.nz/siting.html">
+<meta property="og:image" content="https://grannyflatchecklist.nz/img/granny-flat.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,700&display=swap" rel="stylesheet">
+<script src="jspdf.umd.min.js"></script>
+<style>
+:root{
+  --green:#1f4a2f; --green-dark:#163822; --green-soft:#e3ebe5;
+  --stone:#ebebe6; --card:#ffffff; --ink:#1f2220; --muted:#5b6159; --line:#d6d6cf;
+  --accent:#e07b00; --accent-bg:#fdf1e3;
+  --stop:#b3261e; --stop-bg:#fbe9e7;
+  --radius:10px;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--stone);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+a{color:var(--green);text-underline-offset:2px}
+
+/* Header */
+.top{background:var(--stone);border-bottom:3px solid var(--green);position:sticky;top:0;z-index:5}
+.top-in{display:flex;align-items:center;gap:14px;padding:12px 16px}
+.logo{height:52px;width:auto;display:block}
+.logo-fallback{font-family:var(--serif);font-weight:700;font-size:28px;color:var(--green);letter-spacing:.02em}
+.eyebrow{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font-family:var(--serif);font-weight:700;color:var(--green);font-size:22px;line-height:1.2}
+.progress{height:5px;background:var(--green-soft)}
+#bar{height:100%;width:0;background:var(--green);transition:width .3s}
+
+/* Step nav */
+.steps{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.step{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:6px 12px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:var(--sans)}
+.step .dot{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.step.done .dot{background:var(--green)}
+.step.flag .dot{background:var(--accent)}
+.step.stopflag .dot{background:var(--stop)}
+.step.on{border-color:var(--green);color:var(--green);font-weight:600}
+
+/* Cards */
+main{padding-top:8px;padding-bottom:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 18px;margin:10px 0}
+h2{font-family:var(--serif);color:var(--green);font-size:24px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 4px}
+.callout{background:var(--green-soft);border-left:5px solid var(--green);padding:12px 14px;border-radius:6px;margin:14px 0;font-size:16px}
+
+/* Fields */
+.field{display:block;margin:14px 0}
+.field > span{display:block;font-weight:600;margin-bottom:5px}
+.field small{display:block;color:var(--muted);font-weight:400;font-size:14px;margin-top:2px}
+input[type=text],input[type=email],input[type=date],input[type=number],textarea{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+input:focus,textarea:focus{outline:3px solid rgba(31,74,47,.25);border-color:var(--green)}
+textarea{min-height:110px;resize:vertical}
+.req{color:var(--stop)}
+
+/* Check items */
+.item{border:0;border-top:1px solid var(--line);margin:0;padding:18px 0 16px}
+.item:first-of-type{border-top:0}
+.item legend{font-weight:600;padding:0;display:flex;gap:10px;float:left;width:100%}
+.item legend + *{clear:both}
+.num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--green-soft);color:var(--green);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.hint{color:var(--muted);font-size:15px;margin:8px 0 0 38px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0 38px}
+.opt{position:relative;cursor:pointer}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:inline-block;min-width:76px;text-align:center;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;background:#fff;font-weight:600;font-size:15px}
+.opt input:focus-visible + span{outline:3px solid rgba(31,74,47,.3)}
+.opt.on.opt-yes span{background:var(--green);border-color:var(--green);color:#fff}
+.opt.on.opt-no span,.opt.on.opt-unsure span{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt.on.opt-na span{background:var(--muted);border-color:var(--muted);color:#fff}
+.next{margin:12px 0 0 38px;background:var(--accent-bg);border-left:5px solid var(--accent);padding:10px 12px;border-radius:6px;font-size:15px}
+.next strong{display:block;color:#9a5300;margin-bottom:2px}
+.next p{margin:0}
+.next.stopnote{background:var(--stop-bg);border-left-color:var(--stop)}
+.next.stopnote strong{color:var(--stop)}
+
+/* Measurements */
+.measures{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.meas{display:block}
+.meas > span{display:block;font-weight:600;font-size:15px;margin-bottom:4px}
+.meas > span.unit{display:flex;align-items:center;gap:8px;margin:0}
+.unit input{flex:1;min-width:0}
+.unit > span{color:var(--muted);font-weight:600;flex:0 0 auto}
+.unit input.low{border-color:var(--stop);background:var(--stop-bg)}
+.unit input.ok{border-color:var(--green)}
+.stop{background:var(--stop-bg);border:2px solid var(--stop);color:var(--stop);border-radius:8px;padding:12px 14px;margin-top:14px;font-weight:600}
+.stop p{margin:4px 0 0;font-weight:400;color:var(--ink)}
+
+/* Photos */
+.photos{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+.plabel{font-weight:600;margin:0 0 8px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;margin-bottom:10px}
+.thumb{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--stone)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+
+/* Video */
+.video{aspect-ratio:16/9;background:var(--green);color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-family:var(--serif);font-size:19px;margin:14px 0}
+.video iframe{width:100%;height:100%;border:0;border-radius:8px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:600;margin:12px 0;cursor:pointer}
+.check input{width:22px;height:22px;margin-top:2px;accent-color:var(--green);flex:0 0 auto}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;font-weight:600;font-size:16px;padding:12px 18px;border-radius:8px;border:1.5px solid var(--green);background:var(--green);color:#fff;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--green-dark)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-ghost{background:#fff;color:var(--green)}
+.btn-ghost:hover{background:var(--green-soft)}
+.btn-small{padding:7px 12px;font-size:14px}
+.navbtns{display:flex;justify-content:space-between;gap:10px;margin:16px 0}
+.navbtns .btn{flex:1}
+
+/* Sign off */
+.summary{margin:10px 0}
+.result{border-radius:8px;padding:14px 16px;font-weight:700;font-family:var(--serif);font-size:19px}
+.result.clear{background:var(--green-soft);color:var(--green);border:2px solid var(--green)}
+.result.resolve{background:var(--accent-bg);color:#9a5300;border:2px solid var(--accent)}
+.result.stopr{background:var(--stop-bg);color:var(--stop);border:2px solid var(--stop)}
+.issues{margin:10px 0 0;padding-left:20px;font-size:15px}
+.issues li{margin:4px 0}
+.sig{border:1.5px dashed var(--line);border-radius:8px;background:#fff;width:100%;height:150px;touch-action:none;display:block}
+.sigrow{display:flex;justify-content:space-between;align-items:center;margin-top:6px;color:var(--muted);font-size:14px}
+.missing{background:var(--stop-bg);border-left:5px solid var(--stop);padding:10px 12px;border-radius:6px;font-size:15px;margin-top:12px}
+.missing ul{margin:4px 0 0;padding-left:20px}
+
+.foot{color:var(--muted);font-size:13px;padding-bottom:32px}
+.foot button{background:none;border:0;color:var(--muted);text-decoration:underline;font:inherit;cursor:pointer;padding:0}
+.saved{font-size:13px;color:var(--muted);text-align:right;min-height:18px}
+
+@media (max-width:520px){
+  body{font-size:16px}
+  h1{font-size:19px}
+  .logo{height:42px}
+  .measures{grid-template-columns:1fr}
+  .seg,.hint,.next{margin-left:0}
+  .opt{flex:1}
+  .opt span{min-width:0;width:100%;padding:11px 6px}
+}
+@media print{.top,.steps,.navbtns,.foot{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap top-in">
+<img src="/logo.png" alt="PQAS — Project Quality Systems logo" class="logo">
+<div><p class="eyebrow">Granny Flat Checklist</p><h1>Terms of use</h1></div></div></header>
+<main class="wrap" style="padding-top:24px;padding-bottom:32px;line-height:1.65">
+<p><em>Last updated 4 October 2026.</em> By using grannyflatchecklist.nz (the “site”) you agree to these terms.</p>
+<h2>1. Who we are</h2>
+<p>The site and the Granny Flat Checklist are provided by Carl Graham, trading as Project Quality Systems (“we”, “us”). Contact: <a href="mailto:contact@grannyflatchecklist.nz">contact@grannyflatchecklist.nz</a>.</p>
+<h2>2. Copyright and ownership</h2>
+<p>All content on this site — including the checklist questions, structure, sequencing, guidance notes, “What to do next” text, page design, PDF record layout, software code, logos and graphics — is © 2026 Carl Graham, trading as Project Quality Systems and is protected by the Copyright Act 1994 and international copyright law. All rights are reserved.</p>
+<p>The Building Act 2004, Building Code and referenced standards are public or third-party documents. Our copyright is in our own selection, arrangement, wording and presentation of that material, not in the law itself.</p>
+<p>“Granny Flat Checklist”, “Project Quality Systems”, “PQAS” and associated logos are our trade marks. You may not use them without our written permission.</p>
+<h2>3. What you may do</h2>
+<p>We grant you a personal, non-exclusive, non-transferable licence to use the checklists for your own building project, and to print, save and share your completed PDF records with your Licensed Building Practitioner, council, insurer, lender, purchaser or professional advisers for that project.</p>
+<h2>4. What you may not do</h2>
+<p>Without our prior written permission you must not:</p>
+<ul>
+<li>copy, reproduce, republish or redistribute the checklists or their content, in whole or in substantial part, other than as allowed in section 3;</li>
+<li>sell, license, rent or provide the checklists or access to them to anyone else, or use them to deliver a commercial service to other people;</li>
+<li>adapt, translate or create derivative checklists, courses, apps, templates or products based on our content;</li>
+<li>scrape, extract or harvest content by automated means, or use it to train or prompt software or AI systems;</li>
+<li>share your paid unlock link or access with people outside your household or project;</li>
+<li>remove or alter copyright notices, or bypass any access controls on the site.</li>
+</ul>
+<p>Builders, LBPs, educators, insurers, lenders and other businesses who want to use the checklists with clients should contact us about a licence.</p>
+<h2>5. Purchases</h2>
+<p>Prices are in New Zealand dollars. Payments are processed by Stripe; we do not see or store your card details. A stage purchase unlocks that stage; an all-stages purchase unlocks every current stage and any stages released later. Your rights under the Consumer Guarantees Act 1993 are not affected where they apply.</p>
+<h2>6. Nature of the checklist</h2>
+<p>The checklist is an educational self-check and record-keeping tool. It is not a building inspection, does not certify building work, and is not legal, engineering or professional advice. It does not replace the responsibilities of your Licensed Building Practitioner, designer, engineer or licensed trades, or your own obligations under the Building Act 2004. You remain responsible for ensuring your work complies with the Building Code and any exemption conditions.</p>
+<h2>7. Your information</h2>
+<p>Your checklist answers and photos are stored only on your own device, in your browser. We do not receive them unless you choose to send us a copy.</p>
+<h2>8. Liability</h2>
+<p>To the extent permitted by law, we are not liable for any loss or damage arising from your use of, or reliance on, the site or checklists. Where liability cannot be excluded, it is limited to the amount you paid us for the relevant stage. If you use the site for business purposes, you agree the Consumer Guarantees Act 1993 does not apply.</p>
+<h2>9. Changes and law</h2>
+<p>We may update these terms and the checklist content from time to time. These terms are governed by New Zealand law, and New Zealand courts have exclusive jurisdiction.</p>
+</main>
+<footer class="wrap foot"><p>© 2026 Carl Graham, trading as Project Quality Systems. All rights reserved. · <a href="/">Home</a></p></footer>
+</body></html>
