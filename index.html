@@ -34,11 +34,22 @@
   }
 .stage-link{display:block;text-decoration:none;color:inherit;border-radius:8px;margin:-10px;padding:10px}
 .stage-link:hover,.stage-link:focus-visible{background:rgba(201,162,119,.12);outline:none}
+.topnav{position:sticky;top:0;z-index:10;background:#1C2B44;border-bottom:1px solid rgba(201,162,119,.3);display:flex;gap:28px;justify-content:flex-end;padding:14px 80px;flex-wrap:wrap}
+.topnav a{font-family:'IBM Plex Mono',monospace;font-size:15px;color:#C9A277;text-decoration:none}
+.topnav a:hover,.topnav a:focus-visible{color:#F4EFE4}
+@media (max-width:760px){.topnav{padding:12px 24px;gap:18px;justify-content:flex-start}}
 </style>
 </head>
 <body>
 
 <div class="wrap">
+
+  <nav class="topnav" aria-label="Main">
+    <a href="#stages">Checklists</a>
+    <a href="#about">Who we are</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
   <!-- HERO -->
   <div class="section" style="background: #1C2B44; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 56px), repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 56px); padding-top: 104px; padding-bottom: 96px;">
@@ -100,7 +111,7 @@
   </div>
 
   <!-- STAGES -->
-  <div class="section" style="background: #1C2B44; color: #EFEAE0;">
+  <div class="section" id="stages" style="background: #1C2B44; color: #EFEAE0;">
     <h2 class="mono" style="font-size: 20px; letter-spacing: 0.03em; color: #C9A277; margin: 0 0 36px 0;">The stages</h2>
     <div class="grid3">
       <a class="stage-link" href="/siting.html"><div class="mono" style="font-size: 34px; color: #C9A277; margin-bottom: 8px;">01</div><div style="font-size: 19px; color: #F4EFE4;">Siting &rarr;</div><div class="mono" style="font-size: 13px; color: #C9A277; margin-top: 6px;">Free — start here</div></a>
@@ -131,7 +142,7 @@
   <!-- ABOUT -->
   <div class="section" id="about" style="max-width: 920px;">
     <h2 class="mono" style="font-size: 20px; letter-spacing: 0.03em; color: #8A6A3E; margin: 0 0 18px 0;">Who wrote these checklists</h2>
-    <p style="font-size: 19px; line-height: 1.75; margin: 0 0 28px 0; max-width: 720px;">Carl Graham started as a carpentry apprentice, ran his own building business for seventeen years, then spent eleven years as a building inspector, approved under <a href="https://www.building.govt.nz/building-officials/bca-accreditation/detailed-regulatory-guidance/18-appropriate-technical-qualifications" target="_blank" rel="noopener" style="color: #8A6A3E;">Regulation 18</a> for Residential 3 and Commercial 1 work. He now teaches building surveying and compliance at the training organisation that developed, with BOINZ, the NZQA-approved New Zealand Diploma in Building Surveying (Level 6) &mdash; the qualification built specifically for building consent authority officers (processors, inspectors and consent certifiers) to meet Regulation 18. Every check in this system is something he has looked for on a real site.</p>
+    <p style="font-size: 19px; line-height: 1.75; margin: 0 0 28px 0; max-width: 720px;">The author started as a carpentry apprentice, ran his own building business for seventeen years, then spent eleven years as a building inspector, approved under <a href="https://www.building.govt.nz/building-officials/bca-accreditation/detailed-regulatory-guidance/18-appropriate-technical-qualifications" target="_blank" rel="noopener" style="color: #8A6A3E;">Regulation 18</a> for Residential 3 and Commercial 1 work. He now teaches building surveying and compliance at the training organisation that developed, with BOINZ, the NZQA-approved New Zealand Diploma in Building Surveying (Level 6) &mdash; the qualification built specifically for building consent authority officers (processors, inspectors and consent certifiers) to meet Regulation 18. Every check in this system is something he has looked for on a real site.</p>
     <div class="grid3">
       <div>
         <div style="font-size: 18px; margin-bottom: 10px;">On the tools</div>
@@ -183,6 +194,13 @@
   <!-- DISCLAIMER -->
   <div class="section" style="padding-top: 0; max-width: 720px;">
     <p style="font-size: 14px; line-height: 1.7; color: #5B5346; margin: 0;">This checklist covers Building Code compliance for exempt work only. It does not replace a council inspection, a building consent, or advice on resource consent, district plan or PIM matters — check those separately with your council.</p>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="section" id="contact" style="max-width: 720px; padding-top: 0;">
+    <h2 class="mono" style="font-size: 20px; letter-spacing: 0.03em; color: #8A6A3E; margin: 0 0 18px 0;">Contact</h2>
+    <p style="font-size: 19px; line-height: 1.7; margin: 0 0 12px 0;">Questions about a checklist, your purchase, or using the system with your LBP? Email us and we’ll get back to you.</p>
+    <p class="mono" style="font-size: 18px; margin: 0;"><a href="mailto:contact@grannyflatchecklist.nz" style="color: #B5652D;">contact@grannyflatchecklist.nz</a></p>
   </div>
 
   <!-- FOOTER CTA -->
