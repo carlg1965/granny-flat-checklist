@@ -61,7 +61,7 @@
     '.gl:focus-visible{outline:2px solid var(--green);outline-offset:2px}' +
     '.glpop{position:absolute;z-index:20;max-width:280px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:8px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.12);font-size:15px;line-height:1.4}' +
     '.glpop .tr{font-size:19px;font-weight:600;color:var(--green);margin:2px 0}' +
-    '.glpop .def{color:var(--muted);font-size:13px;margin:0}';
+    '.glpop .def{color:var(--muted);font-size:13px;margin:4px 0 0}';
   document.head.appendChild(css);
 
   // ---- Language bar ----
@@ -77,7 +77,7 @@
       '?_x_tr_sl=en&_x_tr_tl=' + l.gt + '&_x_tr_hl=en" target="_blank" rel="noopener" lang="' + l.code + '">' + l.label + '</a>').join(' · ');
     const sel = '<label>Glossary: <select id="gl-lang">' + LANGS.map(l => '<option value="' + l.code + '"' + (l.code === lang ? ' selected' : '') + '>' + l.label + '</option>').join('') + '</select></label>';
     bar.innerHTML = '<div class="wrap"><span>Read in ' + links + '</span>' + sel +
-      '<span class="lb-note">Tap underlined words for a translation. Checklist and PDF stay in English.</span></div>';
+      '<span class="lb-note">Tap underlined words for a draft translation. Checklist and PDF stay in English.</span></div>';
   }
   if (header) header.insertAdjacentElement('afterend', bar);
   if (translated) return;
@@ -142,7 +142,9 @@
     const L = LANGS.find(l => l.code === lang) || LANGS[0];
     pop = document.createElement('div');
     pop.className = 'glpop'; pop.setAttribute('role', 'dialog');
-    pop.innerHTML = '<strong>' + g.t[0] + '</strong><div class="tr" lang="' + L.code + '">' + g[L.code] + '</div><p class="def">' + g.en + '</p>';
+    pop.innerHTML = '<strong>' + g.t[0] + '</strong><div class="tr" lang="' + L.code + '">' + g[L.code] + '</div><p class="def">' + g.en + '</p>' +
+      '<p class="def"><a href="mailto:contact@grannyflatchecklist.nz?subject=' + encodeURIComponent('Translation suggestion: ' + g.t[0] + ' (' + L.label + ')') +
+      '&body=' + encodeURIComponent('Term: ' + g.t[0] + '\nCurrent ' + L.label + ': ' + g[L.code] + '\nPage: ' + location.pathname + '\n\nBetter wording:\n') + '">Suggest a better translation</a></p>';
     document.body.appendChild(pop);
     const r = b.getBoundingClientRect();
     const left = Math.max(8, Math.min(r.left + scrollX, scrollX + document.documentElement.clientWidth - pop.offsetWidth - 8));
