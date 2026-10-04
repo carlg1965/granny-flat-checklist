@@ -8,3 +8,4 @@ node_modules
 .wrangler
 package.json
 package-lock.json
+news/_template.html
