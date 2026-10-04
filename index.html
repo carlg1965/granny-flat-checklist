@@ -48,6 +48,7 @@
     <a href="#stages">Checklists</a>
     <a href="#about">Who we are</a>
     <a href="#pricing">Pricing</a>
+    <a href="/partnerships.html">Partnership Teams</a>
     <a href="#contact">Contact</a>
   </nav>
 
@@ -214,5 +215,38 @@
   </div>
 
 </div>
+<!-- PARTNERSHIP POP-UP (temporary) -->
+<div id="ptpop" class="ptpop" role="dialog" aria-modal="false" aria-labelledby="ptpop-h" hidden>
+  <button type="button" class="ptx" aria-label="Close" data-pt="no">&times;</button>
+  <div class="mono" style="font-size:13px;letter-spacing:.08em;color:#C9A277;margin-bottom:8px;">NEW · PARTNERSHIP TEAMS</div>
+  <p id="ptpop-h" style="font-size:20px;line-height:1.4;color:#F4EFE4;margin:0 0 8px;font-weight:600;">Trusted in your community?</p>
+  <p style="font-size:16px;line-height:1.55;color:#D9CFBD;margin:0 0 16px;">We're looking for builders, LBPs and bilingual community leaders to help families build granny flats right. <span lang="mul" style="color:#C9A277;">中文 · ਪੰਜਾਬੀ · हिन्दी</span></p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <a class="btn" href="/partnerships.html" data-pt="yes" style="padding:12px 20px;font-size:15px;">Find out more</a>
+    <button type="button" data-pt="no" class="ptno">No thanks</button>
+  </div>
+</div>
+<style>
+.ptpop{position:fixed;right:24px;bottom:24px;z-index:50;max-width:380px;background:#1C2B44;border:1px solid rgba(201,162,119,.45);border-left:5px solid #B5652D;padding:22px 22px 20px;box-shadow:0 14px 40px rgba(0,0,0,.28);transform:rotate(-1.5deg);transition:opacity .35s,transform .35s;opacity:0}
+.ptpop.show{opacity:1;transform:rotate(-1.5deg) translateY(0)}
+.ptx{position:absolute;top:6px;right:10px;background:none;border:0;color:#C9A277;font-size:26px;line-height:1;cursor:pointer}
+.ptno{background:none;border:1px solid rgba(201,162,119,.5);color:#C9A277;font-family:'IBM Plex Mono',monospace;font-size:15px;padding:12px 18px;cursor:pointer}
+.ptno:hover,.ptx:hover{color:#F4EFE4}
+@media (max-width:760px){.ptpop{left:16px;right:16px;bottom:16px;max-width:none;transform:none}.ptpop.show{transform:none}}
+@media (prefers-reduced-motion:reduce){.ptpop{transition:none}}
+</style>
+<script>
+(function(){
+  var K='gfc_pt_popup', el=document.getElementById('ptpop');
+  try{ if(localStorage.getItem(K)) return; }catch(e){}
+  setTimeout(function(){ el.hidden=false; requestAnimationFrame(function(){ el.classList.add('show'); }); }, 6000);
+  el.addEventListener('click', function(e){
+    var t=e.target.closest('[data-pt]'); if(!t) return;
+    try{ localStorage.setItem(K, t.dataset.pt); }catch(err){}
+    if(t.dataset.pt==='no'){ el.classList.remove('show'); setTimeout(function(){ el.hidden=true; },350); }
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && !el.hidden){ try{localStorage.setItem(K,'no');}catch(err){} el.hidden=true; } });
+})();
+</script>
 </body>
 </html>
