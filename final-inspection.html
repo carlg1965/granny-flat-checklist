@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final Inspection Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#1f4a2f;--stone:#ebebe6;--orange:#e07b00;--ink:#1d1d1b;--card:#fff;--line:#d4d4cc;--bg:#f6f6f2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--stone:#2a2d29;--ink:#ecece6;--card:#1d201c;--line:#3a3e38;--bg:#141613}}
+:root[data-theme="dark"]{--stone:#2a2d29;--ink:#ecece6;--card:#1d201c;--line:#3a3e38;--bg:#141613}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Source Sans 3",system-ui,sans-serif}
+header{background:var(--green);color:#fff;padding:18px 16px}
+header h1{font:600 1.4rem "Source Serif 4",serif;margin:0}
+header p{margin:4px 0 0;opacity:.85;font-size:.9rem}
+main{max-width:760px;margin:0 auto;padding:16px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:0 0 16px;overflow:hidden}
+section h2{font:600 1.1rem "Source Serif 4",serif;margin:0;padding:12px 14px;background:var(--stone)}
+section h2 small{font:400 .8rem "Source Sans 3",sans-serif;opacity:.75;margin-left:6px}
+.item{padding:12px 14px;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:0}
+.q{font-weight:600}
+.hint{font-size:.85rem;opacity:.75;margin:2px 0 8px}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opts label{flex:1;min-width:70px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:8px 4px;cursor:pointer;font-size:.9rem}
+.opts input{position:absolute;opacity:0}
+.opts input:checked+span{font-weight:600}
+.opts label:has(input[value=yes]:checked){background:var(--green);color:#fff;border-color:var(--green)}
+.opts label:has(input[value=no]:checked){background:var(--orange);color:#fff;border-color:var(--orange)}
+.opts label:has(input[value=na]:checked){background:var(--stone)}
+textarea,input[type=text],input[type=date]{width:100%;font:inherit;color:inherit;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px;margin-top:8px}
+textarea{min-height:44px;resize:vertical}
+.note{display:none}
+.item.show-note .note{display:block}
+.fields{padding:12px 14px;display:grid;gap:4px}
+.fields label{font-size:.85rem;font-weight:600;margin-top:6px}
+.warn{color:var(--orange);font-size:.85rem;margin-top:6px;display:none}
+.item.is-no .warn{display:block}
+.bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+button{font:600 .95rem inherit;font-family:inherit;border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
+.primary{background:var(--green);color:#fff}
+.ghost{background:var(--stone);color:var(--ink)}
+#summary{padding:12px 14px;font-weight:600}
+@media print{
+ .bar,.hint{display:none}
+ body{background:#fff;color:#000;font-size:11pt}
+ section{break-inside:avoid;border-color:#999}
+ .note{display:block}
+ .opts label{border:0;padding:0;min-width:0;flex:none}
+ .opts label:not(:has(input:checked)){display:none}
+ .opts label:has(input:checked){background:none!important;color:#000!important;font-weight:600}
+ header{background:none;color:#000;border-bottom:2px solid #000}
+}
+</style>
+</head>
+<body>
+<header>
+ <h1>Final Inspection Checklist</h1>
+ <p>Field exercise · Building Act 2004 / NZ Building Code · Answers save on this device only</p>
+</header>
+<main id="app">
+ <section>
+  <h2>Job details</h2>
+  <div class="fields">
+   <label for="f_name">Your name</label><input type="text" id="f_name" data-key="f_name">
+   <label for="f_date">Date</label><input type="date" id="f_date" data-key="f_date">
+   <label for="f_addr">Site address</label><input type="text" id="f_addr" data-key="f_addr">
+   <label for="f_bc">Building consent number</label><input type="text" id="f_bc" data-key="f_bc">
+   <label for="f_desc">Description of building work</label><input type="text" id="f_desc" data-key="f_desc">
+  </div>
+ </section>
+</main>
+<div class="bar">
+ <button class="primary" onclick="window.print()">Save as PDF / Print</button>
+ <button class="ghost" onclick="resetAll()">Clear form</button>
+</div>
+<script>
+const SECTIONS=[
+ {t:"Documentation",c:"s.94 CCC test",items:[
+  ["Approved consent documents and stamped plans on site","Work matches the consented plans and specifications."],
+  ["All amendments / minor variations approved","Any change from consented plans has a granted amendment or recorded minor variation."],
+  ["All prior inspections passed and outstanding items closed","Check the inspection history for failed or partial items."],
+  ["Consent conditions satisfied","Including any s.67 waivers, s.71–74 hazard notices, or engineer conditions."],
+  ["Records of Work (RoW) from all LBPs","Restricted building work under s.88; one from each LBP who carried out or supervised RBW."],
+  ["Producer statements (PS3 / PS4) received","As required by the consent: engineer, geotech, membranes, fire, etc."],
+  ["Electrical Certificate of Compliance (CoC) and ESC","Electricity (Safety) Regulations 2010."],
+  ["Plumbing, drainage and gas certificates","Gas CoC where gas work; drainage as-built plan."],
+  ["Compliance schedule and specified systems","Only if specified systems are present (s.100–102)."],
+ ]},
+ {t:"Site and exterior",c:"E1 · E2 · B2",items:[
+  ["Surface water directed away from the building","E1: ground falls away; no ponding against foundations."],
+  ["Ground clearances to cladding","E2/AS1: floor level to ground ≥150mm paved / ≥225mm unpaved (100/150mm masonry veneer)."],
+  ["Downpipes connected to approved stormwater outfall","No downpipes discharging onto ground unless consented."],
+  ["Gutters and spouting complete, falls correct, stop-ends fitted",""],
+  ["Cladding complete, finished and as consented","Paint/coatings applied; no exposed cut edges; cavity closers in place."],
+  ["Flashings complete: heads, sills, aprons, penetrations","Kick-outs and stop-ends where required."],
+  ["Roof complete; penetrations flashed","Vents, flues and skylights."],
+  ["Deck/balcony: falls, clearances, drainage, barriers","Gap to cladding; outlets clear."],
+ ]},
+ {t:"Safety",c:"F2 · F4 · F7 · D1",items:[
+  ["Smoke alarms installed and working","F7/AS1: in every bedroom/sleeping space, within 3m of bedroom doors, each level; hard-wired or 10-year battery photoelectric."],
+  ["Barriers where fall ≥1.0m","F4: height ≥1.0m (1.1m in commercial/balcony situations as per F4/AS1), with no climbable elements and openings <100mm."],
+  ["Safety glazing in human impact areas","F2 / NZS 4223.3: doors, side panels, low-level glazing, wet areas."],
+  ["Stairs: rise, going, headroom and handrails","D1/AS1: consistent risers and handrails where required."],
+  ["Access routes clear and safe","Slip resistance at entries and wet areas."],
+ ]},
+ {t:"Interior and services",c:"E3 · G4 · G12 · G13 · H1",items:[
+  ["Wet areas: impervious linings, membrane, falls to waste","E3: no leaks; sealant at junctions."],
+  ["Kitchen and bathroom extraction ducted to outside","G4: not into roof space."],
+  ["Hot water delivery temperature ≤55°C at sanitary fixtures","G12: measure at the furthest basin or shower."],
+  ["Cylinder storage ≥60°C and seismically restrained","G12: tempering valve if required; overflow/relief drains to safe place."],
+  ["Sanitary fixtures trapped, vented and working","G13: no leaks; traps have water seals."],
+  ["Insulation evidence sighted","H1: preline photos or inspection record; ceiling insulation visible through hatch."],
+  ["Ceiling access hatch and ventilation of roof/subfloor","Subfloor vents clear where timber floor."],
+  ["Escape from bedrooms / openable windows","C clauses as applicable to the building."],
+ ]},
+];
+const LS="fi_checklist_v1";
+let data={};
+try{data=JSON.parse(localStorage.getItem(LS))||{}}catch(e){}
+function save(){try{localStorage.setItem(LS,JSON.stringify(data))}catch(e){}summary()}
+const app=document.getElementById("app");
+let n=0;
+SECTIONS.forEach(s=>{
+ const sec=document.createElement("section");
+ sec.innerHTML=`<h2>${s.t}<small>${s.c}</small></h2>`;
+ s.items.forEach(([q,h])=>{
+  const id="q"+(++n);
+  const d=document.createElement("div");d.className="item";d.dataset.id=id;
+  d.innerHTML=`<div class="q">${n}. ${q}</div>${h?`<div class="hint">${h}</div>`:""}
+   <div class="opts">${[["yes","Yes"],["no","No"],["na","N/A"]].map(([v,l])=>`<label><input type="radio" name="${id}" value="${v}"><span>${l}</span></label>`).join("")}</div>
+   <div class="warn">Record what is outstanding — this item prevents a CCC until resolved.</div>
+   <textarea class="note" placeholder="Notes / observations / measurements"></textarea>`;
+  const ta=d.querySelector("textarea");
+  d.querySelectorAll("input").forEach(r=>{
+   if(data[id]===r.value)r.checked=true;
+   r.addEventListener("change",()=>{data[id]=r.value;mark(d);save()});
+  });
+  ta.value=data[id+"_n"]||"";
+  ta.addEventListener("input",()=>{data[id+"_n"]=ta.value;mark(d);save()});
+  d.querySelector(".q").addEventListener("click",()=>{d.classList.toggle("show-note")});
+  mark(d);sec.appendChild(d);
+ });
+ app.appendChild(sec);
+});
+function mark(d){const v=data[d.dataset.id];d.classList.toggle("is-no",v==="no");d.classList.toggle("show-note",v==="no"||!!data[d.dataset.id+"_n"]||d.classList.contains("show-note")&&v!=="yes")}
+const res=document.createElement("section");
+res.innerHTML=`<h2>Result</h2><div id="summary"></div><div class="fields">
+ <label for="f_res">Recommendation</label><input type="text" id="f_res" data-key="f_res" placeholder="e.g. Pass — recommend CCC / Fail — items outstanding">
+ <label for="f_notes">Overall notes</label><textarea id="f_notes" data-key="f_notes"></textarea></div>`;
+app.appendChild(res);
+document.querySelectorAll("[data-key]").forEach(el=>{
+ el.value=data[el.dataset.key]||"";
+ el.addEventListener("input",()=>{data[el.dataset.key]=el.value;save()});
+});
+function summary(){
+ let y=0,no=0,na=0;for(let i=1;i<=n;i++){const v=data["q"+i];if(v==="yes")y++;else if(v==="no")no++;else if(v==="na")na++}
+ const left=n-y-no-na;
+ document.getElementById("summary").textContent=`${y} yes · ${no} no · ${na} N/A · ${left} unanswered of ${n}`;
+}
+summary();
+function resetAll(){if(confirm("Clear all answers on this device?")){data={};save();location.reload()}}
+</script>
+</body>
+</html>
